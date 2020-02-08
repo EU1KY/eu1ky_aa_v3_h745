@@ -15,7 +15,7 @@ You'll need the following prerequisites to be installed:
 * [Git SCM](https://git-scm.com/).
 * (Windows only) [GNU make for Windows](https://github.com/mbuilov/gnumake-windows) Download appropriate prebuilt file, rename it to make.exe and put it somewhere in a system PATH.
 * (Linux only) build-essential package (e.g. in Ubuntu, install it with 'sudo apt-get install build-essential')
-* [GNU ARM enbedded toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads). Path to its bin subdirectory must be in the system PATH.
+* [GNU ARM embedded toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads). Path to its bin subdirectory must be in the system PATH.
 * [STM32 CubeProg](https://www.st.com/en/development-tools/stm32cubeprog.html), in system PATH
 
 It is recommended to use [Visual Studio Code](https://code.visualstudio.com/download) as a convenient code editor, workspace file for it is included.
