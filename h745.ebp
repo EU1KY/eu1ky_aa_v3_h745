@@ -1,0 +1,1825 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<EmBitz_project_file>
+	<EmBitzVersion release="1.11" revision="0" />
+	<FileVersion major="1" minor="0" />
+	<Project>
+		<Option title="h745" />
+		<Option makefile_is_custom="1" />
+		<Option pch_mode="2" />
+		<Option compiler="armgcc_eb" />
+		<Option force_lowcase_obj_names="0" />
+		<Build>
+			<Target title="debug">
+				<Option output="out\Debug\bin\cm7\CM7.elf" />
+				<Option object_output="out\Debug\obj\" />
+				<Option type="0" />
+				<Option compiler="armgcc_eb" />
+				<Option projectDeviceOptionsRelation="0" />
+				<MakeCommands>
+					<Build command="make -f $makefile -j4 $target" />
+					<CompileFile command="make -f $makefile  -j4 $target" />
+					<Clean command="make -f $makefile clean" />
+					<DistClean command="make -f $makefile clean" />
+					<AskRebuildNeeded command="make -q -f $makefile -j4 $target" />
+					<SilentBuild command="make -s -f $makefile -j4 $target" />
+				</MakeCommands>
+			</Target>
+			<Target title="release">
+				<Option output="out\Release\bin\cm7\CM7.elf" />
+				<Option object_output="out\Release\obj\" />
+				<Option type="0" />
+				<Option create_hex="1" />
+				<Option compiler="armgcc_eb" />
+				<Option projectDeviceOptionsRelation="0" />
+				<MakeCommands>
+					<Build command="make -f $makefile -j4" />
+					<CompileFile command="make -f $makefile -j4" />
+					<Clean command="make -f $makefile clean" />
+					<DistClean command="make -f $makefile clean" />
+					<AskRebuildNeeded command="make -q -f $makefile -j4" />
+					<SilentBuild command="make -s -f $makefile -j4" />
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Device>
+			<Add option="$device=cortex-h7" />
+			<Add option="$fpu=fpv5-d16" />
+		</Device>
+		<Compiler>
+			<Add option="-mfloat-abi=hard" />
+			<Add option="-mcpu=cortex-m7" />
+			<Add option="-mthumb" />
+			<Add option="-fgcse" />
+			<Add option="-fexpensive-optimizations" />
+			<Add option="-fomit-frame-pointer" />
+			<Add option="-fdata-sections" />
+			<Add option="-ffunction-sections" />
+			<Add option="-g" />
+			<Add option="-MMD" />
+			<Add option="-Wall" />
+			<Add symbol="STM32H745xx" />
+			<Add symbol="CORE_CM7" />
+			<Add symbol="USE_IOEXPANDER" />
+			<Add symbol="STM32" />
+			<Add symbol="USE_HAL_DRIVER" />
+			<Add symbol="USE_USB_FS" />
+			<Add symbol="ARM_MATH_CM7" />
+			<Add symbol="__FPU_PRESENT" />
+			<Add symbol="USE_FULL_LL_DRIVER" />
+			<Add symbol="FS_ENABLED" />
+			<Add symbol="LODEPNG_NO_COMPILE_DISK" />
+			<Add symbol="LODEPNG_NO_COMPILE_ERROR_TEXT" />
+			<Add symbol="LODEPNG_NO_COMPILE_ALLOCATORS" />
+			<Add symbol="LODEPNG_NO_COMPILE_ANCILLARY_CHUNKS" />
+			<Add symbol="LODEPNG_NO_COMPILE_DECODER" />
+			<Add directory=".\src\cm7\inc" />
+			<Add directory=".\src\cm7\src\uartcomm" />
+			<Add directory=".\src\cm7\src\analyzer\lcd" />
+			<Add directory=".\src\cm7\src\analyzer\lcd\bitmaps" />
+			<Add directory=".\src\cm7\src\analyzer\config" />
+			<Add directory=".\src\cm7\src\analyzer\dsp" />
+			<Add directory=".\src\cm7\src\analyzer\gen" />
+			<Add directory=".\src\cm7\src\analyzer\osl" />
+			<Add directory=".\src\cm7\src\analyzer\window" />
+			<Add directory=".\src\common" />
+			<Add directory=".\src\drivers" />
+			<Add directory=".\src\drivers\BSP\Components\ampire480272" />
+			<Add directory=".\src\drivers\BSP\Components\Common" />
+			<Add directory=".\src\drivers\BSP\Components\ft5336" />
+			<Add directory=".\src\drivers\BSP\Components\rk043fn48h" />
+			<Add directory=".\src\drivers\BSP\Components\wm8994" />
+			<Add directory=".\src\drivers\BSP\STM32H745I-Discovery" />
+			<Add directory=".\src\drivers\CMSIS\Include" />
+			<Add directory=".\src\drivers\CMSIS\Core\Include" />
+			<Add directory=".\src\drivers\CMSIS\Device\ST\STM32H7xx\Include" />
+			<Add directory=".\src\drivers\CMSIS\DSP\Include" />
+			<Add directory=".\src\drivers\STM32H7xx_HAL_Driver\inc" />
+			<Add directory=".\src\drivers\STM32H7xx_HAL_Driver\inc\Legacy" />
+			<Add directory=".\src\cm7\src\FatFs\src" />
+			<Add directory=".\src\cm7\src\USBD\Core\Inc" />
+			<Add directory=".\src\cm7\src\USBD\Class\MSC\Inc" />
+		</Compiler>
+		<Linker>
+			<Add option="-eb_start_files" />
+			<Add option="-eb_lib=n" />
+		</Linker>
+		<Unit filename="src\cm4\inc\main.h" />
+		<Unit filename="src\cm4\inc\stm32h7xx_hal_conf.h" />
+		<Unit filename="src\cm4\inc\stm32h7xx_it.h" />
+		<Unit filename="src\cm4\src\main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm4\src\stm32h7xx_hal_msp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm4\src\stm32h7xx_it.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\inc\crash.h" />
+		<Unit filename="src\cm7\inc\main.h" />
+		<Unit filename="src\cm7\inc\sdram_heap.h" />
+		<Unit filename="src\cm7\inc\stm32h7xx_hal_conf.h" />
+		<Unit filename="src\cm7\inc\stm32h7xx_it.h" />
+		<Unit filename="src\cm7\src\analyzer\config\config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\config\config.h" />
+		<Unit filename="src\cm7\src\analyzer\dsp\dsp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\dsp\dsp.h" />
+		<Unit filename="src\cm7\src\analyzer\gen\adf4350.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\gen\adf4350.h" />
+		<Unit filename="src\cm7\src\analyzer\gen\adf4351.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\gen\adf4351.h" />
+		<Unit filename="src\cm7\src\analyzer\gen\gen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\gen\gen.h" />
+		<Unit filename="src\cm7\src\analyzer\gen\rational.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\gen\rational.h" />
+		<Unit filename="src\cm7\src\analyzer\gen\si5338a.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\gen\si5338a.h" />
+		<Unit filename="src\cm7\src\analyzer\gen\si5351.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\gen\si5351.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\bitmaps\bitmaps.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\bitmaps\bitmaps.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\bitmaps\logo.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\consbig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\consbig.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\font.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\font.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\fran.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\fran.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\franbig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\franbig.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\hit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\hit.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\LCD.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\LCD.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\libnsbmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\libnsbmp.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\lodepng.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\lodepng.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\sdigits.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\sdigits.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\smith.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\smith.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\textbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\textbox.h" />
+		<Unit filename="src\cm7\src\analyzer\lcd\touch.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\lcd\touch.h" />
+		<Unit filename="src\cm7\src\analyzer\osl\match.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\osl\match.h" />
+		<Unit filename="src\cm7\src\analyzer\osl\oslfile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\osl\oslfile.h" />
+		<Unit filename="src\cm7\src\analyzer\window\fftwnd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\fftwnd.h" />
+		<Unit filename="src\cm7\src\analyzer\window\generator.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\generator.h" />
+		<Unit filename="src\cm7\src\analyzer\window\keyboard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\keyboard.h" />
+		<Unit filename="src\cm7\src\analyzer\window\mainwnd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\mainwnd.h" />
+		<Unit filename="src\cm7\src\analyzer\window\measurement.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\measurement.h" />
+		<Unit filename="src\cm7\src\analyzer\window\num_keypad.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\num_keypad.h" />
+		<Unit filename="src\cm7\src\analyzer\window\oslcal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\oslcal.h" />
+		<Unit filename="src\cm7\src\analyzer\window\panfreq.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\panfreq.h" />
+		<Unit filename="src\cm7\src\analyzer\window\panvswr2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\panvswr2.h" />
+		<Unit filename="src\cm7\src\analyzer\window\screenshot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\screenshot.h" />
+		<Unit filename="src\cm7\src\analyzer\window\tdr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\analyzer\window\tdr.h" />
+		<Unit filename="src\cm7\src\FatFs\src\diskio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\FatFs\src\diskio.h" />
+		<Unit filename="src\cm7\src\FatFs\src\ff.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\FatFs\src\ff.h" />
+		<Unit filename="src\cm7\src\FatFs\src\ff_gen_drv.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\FatFs\src\ff_gen_drv.h" />
+		<Unit filename="src\cm7\src\FatFs\src\ffconf.h" />
+		<Unit filename="src\cm7\src\FatFs\src\integer.h" />
+		<Unit filename="src\cm7\src\FatFs\src\mmc_diskio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\FatFs\src\mmc_diskio.h" />
+		<Unit filename="src\cm7\src\FatFs\src\option\ccsbcs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\sdram_heap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\stm32h7xx_hal_msp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\stm32h7xx_it.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\uartcomm\aauart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\uartcomm\aauart.h" />
+		<Unit filename="src\cm7\src\uartcomm\fifo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\uartcomm\fifo.h" />
+		<Unit filename="src\cm7\src\uartcomm\nanovna.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\uartcomm\shell.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\uartcomm\shell.h" />
+		<Unit filename="src\cm7\src\USBD\Class\MSC\Inc\usbd_msc.h" />
+		<Unit filename="src\cm7\src\USBD\Class\MSC\Inc\usbd_msc_bot.h" />
+		<Unit filename="src\cm7\src\USBD\Class\MSC\Inc\usbd_msc_data.h" />
+		<Unit filename="src\cm7\src\USBD\Class\MSC\Inc\usbd_msc_scsi.h" />
+		<Unit filename="src\cm7\src\USBD\Class\MSC\Src\usbd_msc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\USBD\Class\MSC\Src\usbd_msc_bot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\USBD\Class\MSC\Src\usbd_msc_data.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\USBD\Class\MSC\Src\usbd_msc_scsi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\USBD\Core\Inc\usbd_conf.h" />
+		<Unit filename="src\cm7\src\USBD\Core\Inc\usbd_core.h" />
+		<Unit filename="src\cm7\src\USBD\Core\Inc\usbd_ctlreq.h" />
+		<Unit filename="src\cm7\src\USBD\Core\Inc\usbd_def.h" />
+		<Unit filename="src\cm7\src\USBD\Core\Inc\usbd_desc.h" />
+		<Unit filename="src\cm7\src\USBD\Core\Inc\usbd_ioreq.h" />
+		<Unit filename="src\cm7\src\USBD\Core\Inc\usbd_storage.h" />
+		<Unit filename="src\cm7\src\USBD\Core\Src\usbd_conf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\USBD\Core\Src\usbd_core.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\USBD\Core\Src\usbd_ctlreq.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\USBD\Core\Src\usbd_desc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\USBD\Core\Src\usbd_ioreq.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\cm7\src\USBD\Core\Src\usbd_storage.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\common\build_timestamp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\common\build_timestamp.h" />
+		<Unit filename="src\common\debug.h" />
+		<Unit filename="src\common\system_stm32h7xx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\adv7533\adv7533.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\adv7533\adv7533.h" />
+		<Unit filename="src\drivers\BSP\Components\ampire480272\ampire480272.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\accelero.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\audio.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\camera.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\epd.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\gyro.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\idd.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\io.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\lcd.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\magneto.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\ts.h" />
+		<Unit filename="src\drivers\BSP\Components\Common\tsensor.h" />
+		<Unit filename="src\drivers\BSP\Components\exc7200\exc7200.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\exc7200\exc7200.h" />
+		<Unit filename="src\drivers\BSP\Components\ft5336\ft5336.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\ft5336\ft5336.h" />
+		<Unit filename="src\drivers\BSP\Components\ft6x06\ft6x06.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\ft6x06\ft6x06.h" />
+		<Unit filename="src\drivers\BSP\Components\lan8742\lan8742.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\lan8742\lan8742.h" />
+		<Unit filename="src\drivers\BSP\Components\mfxstm32l152\mfxstm32l152.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\mfxstm32l152\mfxstm32l152.h" />
+		<Unit filename="src\drivers\BSP\Components\mt25tl01g\mt25tl01g.h" />
+		<Unit filename="src\drivers\BSP\Components\otm8009a\otm8009a.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\otm8009a\otm8009a.h" />
+		<Unit filename="src\drivers\BSP\Components\ov9655\ov9655.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\ov9655\ov9655.h" />
+		<Unit filename="src\drivers\BSP\Components\rk043fn48h\rk043fn48h.h" />
+		<Unit filename="src\drivers\BSP\Components\st7735\st7735.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\st7735\st7735.h" />
+		<Unit filename="src\drivers\BSP\Components\stmpe811\stmpe811.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\stmpe811\stmpe811.h" />
+		<Unit filename="src\drivers\BSP\Components\ts3510\ts3510.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\ts3510\ts3510.h" />
+		<Unit filename="src\drivers\BSP\Components\wm8994\wm8994.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\Components\wm8994\wm8994.h" />
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\custom_spi2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\custom_spi2.h" />
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\pdm2pcm_glo.h" />
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery.h" />
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_audio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_audio.h" />
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_lcd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_lcd.h" />
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_mmc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_mmc.h" />
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_qspi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_qspi.h" />
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_sdram.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_sdram.h" />
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_ts.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\BSP\STM32H745I-Discovery\stm32h745i_discovery_ts.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\cmsis_compiler.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\cmsis_gcc.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\cmsis_version.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\core_armv8mbl.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\core_armv8mml.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\core_cm4.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\core_cm7.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\mpu_armv7.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\mpu_armv8.h" />
+		<Unit filename="src\drivers\CMSIS\Core\Include\tz_context.h" />
+		<Unit filename="src\drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h745xx.h" />
+		<Unit filename="src\drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h" />
+		<Unit filename="src\drivers\CMSIS\Device\ST\STM32H7xx\Include\system_stm32h7xx.h" />
+		<Unit filename="src\drivers\CMSIS\DSP\Include\arm_common_tables.h" />
+		<Unit filename="src\drivers\CMSIS\DSP\Include\arm_const_structs.h" />
+		<Unit filename="src\drivers\CMSIS\DSP\Include\arm_math.h" />
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_abs_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_abs_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_abs_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_abs_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_add_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_add_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_add_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_add_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_dot_prod_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_dot_prod_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_dot_prod_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_dot_prod_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_mult_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_mult_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_mult_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_mult_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_negate_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_negate_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_negate_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_negate_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_offset_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_offset_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_offset_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_offset_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_scale_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_scale_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_scale_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_scale_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_shift_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_shift_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_shift_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_sub_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_sub_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_sub_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\BasicMathFunctions\arm_sub_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\CommonTables\arm_common_tables.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\CommonTables\arm_const_structs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_conj_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_conj_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_conj_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_dot_prod_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_dot_prod_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_dot_prod_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mag_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mag_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mag_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mag_squared_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mag_squared_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mag_squared_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mult_cmplx_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mult_cmplx_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mult_cmplx_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mult_real_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mult_real_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ComplexMathFunctions\arm_cmplx_mult_real_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ControllerFunctions\arm_pid_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ControllerFunctions\arm_pid_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ControllerFunctions\arm_pid_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ControllerFunctions\arm_pid_reset_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ControllerFunctions\arm_pid_reset_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ControllerFunctions\arm_pid_reset_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ControllerFunctions\arm_sin_cos_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\ControllerFunctions\arm_sin_cos_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FastMathFunctions\arm_cos_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FastMathFunctions\arm_cos_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FastMathFunctions\arm_cos_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FastMathFunctions\arm_sin_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FastMathFunctions\arm_sin_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FastMathFunctions\arm_sin_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FastMathFunctions\arm_sqrt_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FastMathFunctions\arm_sqrt_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_32x64_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_32x64_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_fast_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_fast_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df1_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df2T_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df2T_f64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df2T_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_df2T_init_f64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_stereo_df2T_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_biquad_cascade_stereo_df2T_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_fast_opt_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_fast_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_fast_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_opt_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_opt_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_partial_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_partial_fast_opt_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_partial_fast_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_partial_fast_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_partial_opt_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_partial_opt_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_partial_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_partial_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_partial_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_conv_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_correlate_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_correlate_fast_opt_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_correlate_fast_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_correlate_fast_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_correlate_opt_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_correlate_opt_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_correlate_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_correlate_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_correlate_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_decimate_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_decimate_fast_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_decimate_fast_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_decimate_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_decimate_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_decimate_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_decimate_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_decimate_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_fast_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_fast_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_init_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_interpolate_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_interpolate_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_interpolate_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_interpolate_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_interpolate_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_interpolate_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_lattice_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_lattice_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_lattice_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_lattice_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_lattice_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_lattice_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_sparse_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_sparse_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_sparse_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_sparse_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_sparse_init_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_sparse_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_sparse_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_fir_sparse_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_iir_lattice_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_iir_lattice_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_iir_lattice_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_iir_lattice_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_iir_lattice_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_iir_lattice_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_norm_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_norm_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_norm_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_norm_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_norm_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_norm_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\FilteringFunctions\arm_lms_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_add_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_add_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_add_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_cmplx_mult_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_cmplx_mult_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_cmplx_mult_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_inverse_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_inverse_f64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_mult_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_mult_fast_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_mult_fast_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_mult_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_mult_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_scale_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_scale_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_scale_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_sub_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_sub_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_sub_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_trans_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_trans_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\MatrixFunctions\arm_mat_trans_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_max_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_max_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_max_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_max_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_mean_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_mean_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_mean_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_mean_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_min_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_min_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_min_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_min_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_power_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_power_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_power_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_power_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_rms_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_rms_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_rms_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_std_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_std_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_std_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_var_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_var_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\StatisticsFunctions\arm_var_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_copy_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_copy_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_copy_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_copy_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_fill_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_fill_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_fill_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_fill_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_float_to_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_float_to_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_float_to_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_q15_to_float.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_q15_to_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_q15_to_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_q31_to_float.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_q31_to_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_q31_to_q7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_q7_to_float.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_q7_to_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\SupportFunctions\arm_q7_to_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_bitreversal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_bitreversal2.S">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix2_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix2_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix2_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix2_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix2_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix2_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix4_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix4_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix4_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix4_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix4_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix4_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_cfft_radix8_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_dct4_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_dct4_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_dct4_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_dct4_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_dct4_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_dct4_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_rfft_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_rfft_fast_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_rfft_fast_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_rfft_init_f32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_rfft_init_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_rfft_init_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_rfft_q15.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\DSP\Source\TransformFunctions\arm_rfft_q31.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\CMSIS\Include\cmsis_compiler.h" />
+		<Unit filename="src\drivers\CMSIS\Include\cmsis_gcc.h" />
+		<Unit filename="src\drivers\CMSIS\Include\cmsis_version.h" />
+		<Unit filename="src\drivers\CMSIS\Include\core_armv8mbl.h" />
+		<Unit filename="src\drivers\CMSIS\Include\core_armv8mml.h" />
+		<Unit filename="src\drivers\CMSIS\Include\core_cm4.h" />
+		<Unit filename="src\drivers\CMSIS\Include\core_cm7.h" />
+		<Unit filename="src\drivers\CMSIS\Include\mpu_armv7.h" />
+		<Unit filename="src\drivers\CMSIS\Include\mpu_armv8.h" />
+		<Unit filename="src\drivers\CMSIS\Include\tz_context.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\Legacy\stm32_hal_legacy.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32_assert_template.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_adc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_adc_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_cec.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_comp.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_conf_template.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_cortex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_crc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_crc_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_cryp.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_cryp_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_dac.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_dac_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_dcmi.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_def.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_dfsdm.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_dma.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_dma2d.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_dma_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_dsi.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_eth.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_eth_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_exti.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_fdcan.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_flash.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_flash_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_gpio.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_gpio_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_hash.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_hash_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_hcd.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_hrtim.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_hsem.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_i2c.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_i2c_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_i2s.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_i2s_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_irda.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_irda_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_iwdg.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_jpeg.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_lptim.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_ltdc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_ltdc_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_mdios.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_mdma.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_mmc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_mmc_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_nand.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_nor.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_opamp.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_opamp_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_pcd.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_pcd_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_pwr.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_pwr_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_qspi.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_ramecc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_rcc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_rcc_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_rng.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_rtc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_rtc_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_sai.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_sai_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_sd.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_sd_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_sdram.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_smartcard.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_smartcard_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_smbus.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_spdifrx.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_spi.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_spi_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_sram.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_swpmi.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_tim.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_tim_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_uart.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_uart_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_usart.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_usart_ex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_hal_wwdg.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_adc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_bdma.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_bus.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_comp.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_cortex.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_crc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_dac.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_delayblock.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_dma.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_dma2d.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_dmamux.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_exti.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_fmc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_gpio.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_hrtim.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_hsem.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_i2c.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_iwdg.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_lptim.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_lpuart.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_mdma.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_opamp.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_pwr.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_rcc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_rng.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_rtc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_sdmmc.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_spi.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_swpmi.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_system.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_tim.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_usart.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_usb.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_utils.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\inc\stm32h7xx_ll_wwdg.h" />
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_adc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_adc_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_cec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_comp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_cortex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_crc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_crc_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_cryp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_cryp_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_dac.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_dac_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_dcmi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_dfsdm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_dma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_dma2d.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_dma_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_dsi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_eth.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_eth_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_exti.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_fdcan.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_flash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_flash_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_gpio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_hash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_hash_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_hcd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_hrtim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_hsem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_i2c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_i2c_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_i2s.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_i2s_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_irda.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_iwdg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_jpeg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_lptim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_ltdc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_ltdc_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_mdios.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_mdma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_mmc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_mmc_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_msp_template.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_nand.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_nor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_opamp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_opamp_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_pcd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_pcd_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_pwr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_pwr_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_qspi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_ramecc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_rcc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_rcc_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_rng.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_rtc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_rtc_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_sai.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_sai_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_sd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_sd_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_sdram.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_smartcard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_smartcard_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_smbus.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_spdifrx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_spi_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_sram.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_swpmi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_tim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_tim_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_timebase_rtc_alarm_template.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_timebase_rtc_wakeup_template.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_timebase_tim_template.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_uart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_uart_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_usart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_usart_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_hal_wwdg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_adc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_bdma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_comp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_crc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_dac.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_delayblock.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_dma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_dma2d.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_exti.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_fmc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_gpio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_hrtim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_i2c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_lptim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_lpuart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_mdma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_opamp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_pwr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_rcc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_rng.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_rtc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_sdmmc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_swpmi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_tim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_usart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_usb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\STM32H7xx_HAL_Driver\src\stm32h7xx_ll_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\Utilities\Fonts\font12.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\Utilities\Fonts\font16.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\Utilities\Fonts\font20.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\Utilities\Fonts\font24.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\Utilities\Fonts\font8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\drivers\Utilities\Fonts\fonts.h" />
+		<Unit filename="src\sys\startup_stm32h745xx.s">
+			<Option compilerVar="ASM" />
+		</Unit>
+		<Unit filename="src\sys\syscalls.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger>
+				<target_debugging_settings target="debug" active_interface="EBlink">
+					<debug_interface interface_id="EBlink" ip_address="localhost" ip_port="2331" path="${EMBITZ}\share\EBlink" executable="EBlink.exe" description="..\STM32Cube_FW_H7_V1.5.0\svd\STM32H7x5_CM7.svd" dont_start_server="false" backoff_time="100" options="16" reg_filter="15" active_family="STMicroelectronics" gdb_before_conn="" gdb_after_conn="">
+						<family_options family_id="STMicroelectronics">
+							<option opt_id="ID_DEV_ADDR" opt_value="" />
+							<option opt_id="ID_DEV_SPEED" opt_value="4000" />
+							<option opt_id="ID_JTAG_SWD" opt_value="swd" />
+							<option opt_id="ID_RESET_TYPE" opt_value="System" />
+							<option opt_id="ID_DEVICE_SCRIPT_LIST" opt_value="stm32-auto" />
+							<option opt_id="ID_VERBOSE_LEVEL" opt_value="" />
+							<option opt_id="ID_VEC_TABLE" opt_value="1" />
+							<option opt_id="ID_VECTOR_START" opt_value="0x08000000" />
+							<option opt_id="ID_RAM_EXEC" opt_value="0" />
+							<option opt_id="ID_LOAD_PROGRAM" opt_value="1" />
+							<option opt_id="ID_HOTPLUG_CONNECT" opt_value="0" />
+							<option opt_id="ID_NO_FLASH_CACHE" opt_value="0" />
+							<option opt_id="ID_NO_GUI_MSGBOX" opt_value="0" />
+							<option opt_id="ID_SHUTDOWN_AFTER_DISCONNECT" opt_value="1" />
+							<option opt_id="ID_EBLINK_CMD_LINE" opt_value="" />
+							<option opt_id="ID_CMD_RESET" opt_value="" />
+							<option opt_id="ID_BEFORE_CONNECT" opt_value="" />
+							<option opt_id="ID_AFTER_CONNECT" opt_value="" />
+						</family_options>
+					</debug_interface>
+				</target_debugging_settings>
+				<target_debugging_settings target="release" active_interface="EBlink">
+					<debug_interface interface_id="EBlink" ip_address="localhost" ip_port="2331" path="${EMBITZ}\share\EBlink" executable="EBlink.exe" description="..\STM32Cube_FW_H7_V1.5.0\svd\STM32H7x5_CM7.svd" dont_start_server="false" backoff_time="100" options="16" reg_filter="15" active_family="STMicroelectronics" gdb_before_conn="" gdb_after_conn="">
+						<family_options family_id="STMicroelectronics">
+							<option opt_id="ID_DEV_ADDR" opt_value="" />
+							<option opt_id="ID_DEV_SPEED" opt_value="4000" />
+							<option opt_id="ID_JTAG_SWD" opt_value="swd" />
+							<option opt_id="ID_RESET_TYPE" opt_value="System" />
+							<option opt_id="ID_DEVICE_SCRIPT_LIST" opt_value="stm32-auto" />
+							<option opt_id="ID_VERBOSE_LEVEL" opt_value="" />
+							<option opt_id="ID_VEC_TABLE" opt_value="1" />
+							<option opt_id="ID_VECTOR_START" opt_value="0x08000000" />
+							<option opt_id="ID_RAM_EXEC" opt_value="0" />
+							<option opt_id="ID_LOAD_PROGRAM" opt_value="1" />
+							<option opt_id="ID_HOTPLUG_CONNECT" opt_value="0" />
+							<option opt_id="ID_SEMIHOST_CHECK" opt_value="0" />
+							<option opt_id="ID_NO_FLASH_CACHE" opt_value="0" />
+							<option opt_id="ID_NO_GUI_MSGBOX" opt_value="0" />
+							<option opt_id="ID_SHUTDOWN_AFTER_DISCONNECT" opt_value="1" />
+							<option opt_id="ID_EBLINK_CMD_LINE" opt_value="" />
+							<option opt_id="ID_CMD_RESET" opt_value="" />
+							<option opt_id="ID_BEFORE_CONNECT" opt_value="" />
+							<option opt_id="ID_AFTER_CONNECT" opt_value="" />
+						</family_options>
+					</debug_interface>
+				</target_debugging_settings>
+			</debugger>
+			<envvars />
+		</Extensions>
+	</Project>
+</EmBitz_project_file>

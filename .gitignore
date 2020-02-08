@@ -1,0 +1,6 @@
+out/*
+src/common/build_timestamp.h
+Thumbs.db
+stm32gdb.lnk
+h745.elay
+*build_log.html

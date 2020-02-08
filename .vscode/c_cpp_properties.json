@@ -1,0 +1,78 @@
+{
+    "env": {
+        "myDefaultIncludePath": [
+            "${workspaceFolder}",
+            "${workspaceFolder}/src/drivers",
+            "${workspaceFolder}/src/drivers/BSP/Components/adv7533",
+            "${workspaceFolder}/src/drivers/BSP/Components/ampire480272",
+            "${workspaceFolder}/src/drivers/BSP/Components/Common",
+            "${workspaceFolder}/src/drivers/BSP/Components/exc7200",
+            "${workspaceFolder}/src/drivers/BSP/Components/ft5336",
+            "${workspaceFolder}/src/drivers/BSP/Components/ft6x06",
+            "${workspaceFolder}/src/drivers/BSP/Components/lan8742",
+            "${workspaceFolder}/src/drivers/BSP/Components/mfxstm32l152",
+            "${workspaceFolder}/src/drivers/BSP/Components/mt25tl01g",
+            "${workspaceFolder}/src/drivers/BSP/Components/otm8009a",
+            "${workspaceFolder}/src/drivers/BSP/Components/ov9655",
+            "${workspaceFolder}/src/drivers/BSP/Components/rk043fn48h",
+            "${workspaceFolder}/src/drivers/BSP/Components/st7735",
+            "${workspaceFolder}/src/drivers/BSP/Components/stmpe811",
+            "${workspaceFolder}/src/drivers/BSP/Components/ts3510",
+            "${workspaceFolder}/src/drivers/BSP/Components/wm8994",
+            "${workspaceFolder}/src/drivers/BSP/STM32H745I-Discovery",
+            "${workspaceFolder}/src/drivers/CMSIS/Include ",
+            "${workspaceFolder}/src/drivers/CMSIS/Core/Include",
+            "${workspaceFolder}/src/drivers/CMSIS/Device/ST/STM32H7xx/Include",
+            "${workspaceFolder}/src/drivers/CMSIS/DSP/Include",
+            "${workspaceFolder}/src/drivers/STM32H7xx_HAL_Driver/inc",
+            "${workspaceFolder}/src/drivers/STM32H7xx_HAL_Driver/inc/Legacy",
+            "${workspaceFolder}/src/drivers/Utilities/Fonts",
+            "${workspaceFolder}/src/cm7/inc",
+            "${workspaceFolder}/src/cm7/src/uartcomm",
+            "${workspaceFolder}/src/cm7/src/analyzer/lcd",
+            "${workspaceFolder}/src/cm7/src/analyzer/lcd/bitmaps",
+            "${workspaceFolder}/src/cm7/src/analyzer/gen",
+            "${workspaceFolder}/src/cm7/src/analyzer/osl",
+            "${workspaceFolder}/src/cm7/src/analyzer/window",
+            "${workspaceFolder}/src/cm7/src/analyzer/config",
+            "${workspaceFolder}/src/cm7/src/analyzer/dsp",
+            "${workspaceFolder}/src/cm7/src/FatFs/src",
+            "${workspaceFolder}/src/cm7/src/USBD/Core/Inc",
+            "${workspaceFolder}/src/cm7/src/USBD/Class/MSC/Inc",
+            "${workspaceFolder}/src/common",
+            "${workspaceFolder}/src/sys"
+        ],
+        "myCompilerPath": "${default}"
+      },
+
+    "configurations": [
+        {
+            "name": "H745",
+            "includePath": ["${myDefaultIncludePath}", "${default}"],
+            "defines": [
+                "STM32H745xx",
+                "USE_STM32H745I_DISCO",
+                "CORE_CM7",
+                "USE_IOEXPANDER",
+                "STM32",
+                "USE_HAL_DRIVER",
+                "USE_USB_FS",
+                "ARM_MATH_CM7",
+                "__FPU_PRESENT=1",
+                "__GNUC__",
+                "__VFP_FP__",
+                "__attribute__(...)=",
+                "VS_CODE",
+                "USE_FULL_LL_DRIVER",
+                "FS_ENABLED",
+                "USBD_ENABLED",
+                "RIGEXPERT_PROTOCOL_ENABLED",
+                "_GNU_SOURCE"
+            ],
+            "intelliSenseMode": "gcc-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

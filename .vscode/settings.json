@@ -1,0 +1,7 @@
+{
+    "files.exclude": {
+        "**/out": true,
+        "**drivers/STM32H7xx_HAL_Driver/inc/stm32h7xx_hal_conf_template.h": true,
+        "**drivers/STM32H7xx_HAL_Driver/inc/stm32h7xx_assert_template.h": true
+    }
+}

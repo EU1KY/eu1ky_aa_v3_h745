@@ -1,0 +1,76 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"main.h": "c",
+			"stdlib.h": "c",
+			"stm32h7xx_hal_uart.h": "c",
+			"shell.h": "c",
+			"stdio.h": "c",
+			"font.h": "c",
+			"stm32h745i_discovery_lcd.h": "c",
+			"math.h": "c",
+			"stm32h745i_discovery.h": "c",
+			"stm32h745i_discovery_audio.h": "c",
+			"wm8994.h": "c",
+			"audio.h": "c",
+			"pdm2pcm_glo.h": "c",
+			"si5351.h": "c",
+			"stm32h7xx_it.h": "c",
+			"dsp.h": "c",
+			"stm32h7xx_hal.h": "c",
+			"sdram_heap.h": "c",
+			"mmc_diskio.h": "c",
+			"ff_gen_drv.h": "c",
+			"array": "c",
+			"string": "c",
+			"string_view": "c",
+			"stm32h745i_discovery_mmc.h": "c",
+			"usbd_def.h": "c",
+			"config.h": "c"
+		},
+		"actionButtons": {
+			"defaultColor": "#ff0034", // Can also use string color names.
+			"loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
+			"reloadButton":"♻️", // Custom reload button text or icon (default ↻). null value enables automatic reload on configuration change
+			"commands": [
+				{
+					"name": "clean",
+					"color": "yellow",
+					"singleInstance": true,
+					"command": "make clean" // This is executed in the terminal.
+				},
+				{
+					//"cwd": "/home/custom_folder", 	// Terminal initial folder ${workspaceFolder} and os user home as defaults
+					"name": "make debug",
+					"color": "white",
+					"singleInstance": true,
+					"command": "make -j4 debug" // This is executed in the terminal.
+				},
+				{
+					"name": "flash debug",
+					"color": "cyan",
+					"singleInstance": true,
+					"command": "make flashdbg"
+				},
+				{
+					//"cwd": "/home/custom_folder", 	// Terminal initial folder ${workspaceFolder} and os user home as defaults
+					"name": "make release",
+					"color": "white",
+					"singleInstance": true,
+					"command": "make -j4" // This is executed in the terminal.
+				},
+				{
+					"name": "flash release",
+					"color": "cyan",
+					"singleInstance": true,
+					"command": "make flash"
+				}
+			]
+		}
+	}
+}
