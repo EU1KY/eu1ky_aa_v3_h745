@@ -28,6 +28,13 @@ SVD (STM32H7 System View Description) files for STM32H7 can be found on the [ST 
 
 ### Build instructions
 
+To clone repository, open command interpreter in some convenient directory and execute the following commands:
+
+```
+git clone https://github.com/EU1KY/eu1ky_aa_v3_h745
+cd eu1ky_aa_v3_h745
+```
+
 To build the release target, just open a command line interpreter in the project's directory, and run
 
 ```
@@ -45,7 +52,7 @@ The build should be finished with no errors and no warnings.
 ## Flashing the firmware
 
 In Windows you can connect the onboard ST-Link to PC with Micro-USB cable and then drag and drop
-appropriate built FW binary (out/Debug/fw_image.bin, or out/Release.fw_image.bin) to the drive that appears in the system.
+appropriate built FW binary (out/Debug/fw_image.bin, or out/Release/fw_image.bin) to the drive that appears in the system.
 
 The same method should probably work in Linux.
 
