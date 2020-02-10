@@ -33,6 +33,7 @@ To clone repository, open command interpreter in some convenient directory and e
 ```
 git clone https://github.com/EU1KY/eu1ky_aa_v3_h745
 cd eu1ky_aa_v3_h745
+chmod +x gen_timestamp.sh
 ```
 
 To build the release target, just open a command line interpreter in the project's directory, and run
