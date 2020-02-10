@@ -1,6 +1,6 @@
 # EU1KY Antenna Analyzer V3
 
-This is a port of [eu1ky_aa_v3]() for STM32H745I DISCOVERY board
+This is a port of [eu1ky_aa_v3](https://github.com/EU1KY/eu1ky_aa_v3) for STM32H745I DISCOVERY board
 
 ## Getting Started
 
