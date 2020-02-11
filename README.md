@@ -19,7 +19,7 @@ You'll need the following prerequisites to be installed:
 * [STM32 CubeProg](https://www.st.com/en/development-tools/stm32cubeprog.html), in system PATH
 
 It is recommended to use [Visual Studio Code](https://code.visualstudio.com/download) as a convenient code editor, workspace file for it is included.
-"C/C++ Intellisense" and "VsCode Action Buttons" extensions are highly recommended for it.
+"C/C++" and "VsCode Action Buttons" extensions are highly recommended for it.
 Though, VSCode is not very convenient for in-system debugging (with Native Debug extension)
 because it does not show hardawre registers from SVD file. I prefer debugging in Windows,
 using [EmBitz 1.11](https://www.embitz.org/) and [EBLink](https://github.com/EmBitz/EBlink) as GDB server.
@@ -33,7 +33,6 @@ To clone repository, open command interpreter in some convenient directory and e
 ```
 git clone https://github.com/EU1KY/eu1ky_aa_v3_h745
 cd eu1ky_aa_v3_h745
-chmod +x gen_timestamp.sh
 ```
 
 To build the release target, just open a command line interpreter in the project's directory, and run
