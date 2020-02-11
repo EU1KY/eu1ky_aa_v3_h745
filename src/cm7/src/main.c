@@ -12,15 +12,9 @@
 #include "gen.h"
 #include <memory.h>
 
-#define AUDIO_FREQUENCY            BSP_AUDIO_FREQUENCY_48K
-#define AUDIO_BUFFER_SIZE          1024
-
 volatile uint32_t ReloadFlag = 0;
 volatile uint32_t main_sleep_timer = 0;
 volatile uint32_t autosleep_timer = 0xFFFFFFFFul;
-
-extern SAI_HandleTypeDef haudio_in_sai;
-uint16_t audio_buf[AUDIO_BUFFER_SIZE] __attribute__((aligned(32))) __attribute__((section("AXISRAM")));
 
 FATFS MMCFatFs;  // File system object
 char MMCPath[4]; // Logical drive path
