@@ -241,6 +241,24 @@ uint8_t BSP_MMC_Erase(uint32_t StartAddr, uint32_t EndAddr)
 }
 
 /**
+  * @brief  Trim the specified memory area of the given MMC card.
+  * @param  StartAddr: Start byte address
+  * @param  EndAddr: End byte address
+  * @retval MMC status
+  */
+uint8_t BSP_MMC_Trim(uint32_t StartAddr, uint32_t EndAddr)
+{
+  if( HAL_MMC_Trim(&uSdHandle, StartAddr, EndAddr) == HAL_OK)
+  {
+    return MMC_OK;
+  }
+  else
+  {
+    return MMC_ERROR;
+  }
+}
+
+/**
   * @brief  Initializes the MMC MSP.
   * @param  hmmc: MMC handle
   * @param  Params User parameters

@@ -1315,15 +1315,16 @@ HAL_StatusTypeDef HAL_MMC_WriteBlocks_DMA(MMC_HandleTypeDef *hmmc, uint8_t *pDat
 }
 
 /**
-  * @brief  Erases the specified memory area of the given MMC card.
+  * @brief  Erases or Trims the specified memory area of the given MMC card.
   * @note   This API should be followed by a check on the card state through
   *         HAL_MMC_GetCardState().
   * @param  hmmc: Pointer to MMC handle
   * @param  BlockStartAdd: Start Block address
   * @param  BlockEndAdd: End Block address
+  * @param  isTrim: Trim operation
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_MMC_Erase(MMC_HandleTypeDef *hmmc, uint32_t BlockStartAdd, uint32_t BlockEndAdd)
+static HAL_StatusTypeDef HAL_MMC_Erase_Trim(MMC_HandleTypeDef *hmmc, uint32_t BlockStartAdd, uint32_t BlockEndAdd, uint32_t isTrim)
 {
   uint32_t errorstate;
   uint32_t start_add = BlockStartAdd;
@@ -1395,7 +1396,7 @@ HAL_StatusTypeDef HAL_MMC_Erase(MMC_HandleTypeDef *hmmc, uint32_t BlockStartAdd,
     }
 
     /* Send CMD38 ERASE */
-    errorstate = SDMMC_CmdErase(hmmc->Instance);
+    errorstate = SDMMC_CmdErase(hmmc->Instance, isTrim);
     if(errorstate != HAL_MMC_ERROR_NONE)
     {
       /* Clear all the static flags */
@@ -1413,6 +1414,34 @@ HAL_StatusTypeDef HAL_MMC_Erase(MMC_HandleTypeDef *hmmc, uint32_t BlockStartAdd,
   {
     return HAL_BUSY;
   }
+}
+
+/**
+  * @brief  Erases the specified memory area of the given MMC card.
+  * @note   This API should be followed by a check on the card state through
+  *         HAL_MMC_GetCardState().
+  * @param  hmmc: Pointer to MMC handle
+  * @param  BlockStartAdd: Start Block address
+  * @param  BlockEndAdd: End Block address
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_MMC_Erase(MMC_HandleTypeDef *hmmc, uint32_t BlockStartAdd, uint32_t BlockEndAdd)
+{
+  return HAL_MMC_Erase_Trim(hmmc, BlockStartAdd, BlockEndAdd, 0);
+}
+
+/**
+  * @brief  Trims the specified memory area of the given MMC card.
+  * @note   This API should be followed by a check on the card state through
+  *         HAL_MMC_GetCardState().
+  * @param  hmmc: Pointer to MMC handle
+  * @param  BlockStartAdd: Start Block address
+  * @param  BlockEndAdd: End Block address
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_MMC_Trim(MMC_HandleTypeDef *hmmc, uint32_t BlockStartAdd, uint32_t BlockEndAdd)
+{
+  return HAL_MMC_Erase_Trim(hmmc, BlockStartAdd, BlockEndAdd, 1);
 }
 
 /**

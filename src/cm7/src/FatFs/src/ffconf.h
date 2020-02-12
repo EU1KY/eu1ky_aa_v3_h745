@@ -196,7 +196,7 @@
 /  disk_ioctl() function. */
 
 
-#define	_USE_TRIM	0
+#define	_USE_TRIM	1
 /* This option switches support of ATA-TRIM. (0:Disable or 1:Enable)
 /  To enable Trim function, also CTRL_TRIM command should be implemented to the
 /  disk_ioctl() function. */

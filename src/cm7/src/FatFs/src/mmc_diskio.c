@@ -279,17 +279,18 @@ DRESULT MMC_ioctl(BYTE lun, BYTE cmd, void *buff)
     res = RES_OK;
     break;
 
-//TODO!!!
-/*
-  case CTRL_TRIM:
-      uint32_t* params = (uint32_t*)buff;
-      uint8_t trimres = BSP_MMC_Erase(params[0], params[1]);
+  /* Trim operation */
+  case CTRL_TRIM :
+    {
+      DWORD* params = (DWORD*)buff;
+      BYTE trimres = BSP_MMC_Trim(params[0], params[1]);
       if (MMC_OK == trimres)
         res = RES_OK;
       else
         res = RES_ERROR;
       break;
-*/
+    }
+
   default:
     res = RES_PARERR;
   }

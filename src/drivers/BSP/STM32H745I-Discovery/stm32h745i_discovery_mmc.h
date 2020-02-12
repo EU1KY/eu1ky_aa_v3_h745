@@ -93,6 +93,7 @@ uint8_t BSP_MMC_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfB
 uint8_t BSP_MMC_ReadBlocks_DMA(uint32_t *pData, uint32_t ReadAddr, uint32_t NumOfBlocks);
 uint8_t BSP_MMC_WriteBlocks_DMA(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfBlocks);
 uint8_t BSP_MMC_Erase(uint32_t StartAddr, uint32_t EndAddr);
+uint8_t BSP_MMC_Trim(uint32_t StartAddr, uint32_t EndAddr);
 uint8_t BSP_MMC_GetCardState(void);
 void    BSP_MMC_GetCardInfo(BSP_MMC_CardInfo *CardInfo);
 uint8_t BSP_MMC_IsDetected(void);
