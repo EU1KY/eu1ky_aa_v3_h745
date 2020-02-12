@@ -10,6 +10,7 @@
 #include "mainwnd.h"
 #include "dsp.h"
 #include "gen.h"
+#include "screenshot.h"
 #include <memory.h>
 
 volatile uint32_t ReloadFlag = 0;
@@ -68,19 +69,10 @@ __attribute((unused)) static void _wait_for_cpu2_rdy(void)
     }
 }
 
-int main(void)
+// Mount filesystem. Creates it if necessary.
+static void _openfs(void)
 {
-    MPU_Config();
-    CPU_CACHE_Enable();
-    _wait_for_cpu2_rdy();
-    HAL_Init();
-    SystemClock_Config();
-    setvbuf(stdout,NULL,_IONBF,0);
-    BSP_LED_Init(LED_GREEN);
-    BSP_LED_Init(LED_RED);
-    LCD_Init(); // initializes SDRAM
-    TOUCH_Init();
-
+#if FS_ENABLED
     LOCK_HSEM(HSEM_ID_0);
     if (FATFS_LinkDriver(&MMC_Driver, MMCPath) == 0)
     {
@@ -93,6 +85,12 @@ int main(void)
             {
                 UNLOCK_HSEM(HSEM_ID_0);
                 CRASH("Creating FileSystem Failed");
+            }
+            fres = f_mount(&MMCFatFs, (TCHAR const*)MMCPath, 1);
+            if (fres != FR_OK)
+            {
+                UNLOCK_HSEM(HSEM_ID_0);
+                CRASHF("File System mount failure after FS creation, err %d", fres);
             }
         }
         else if (FR_OK != fres)
@@ -107,6 +105,23 @@ int main(void)
         CRASH("FS driver link failed");
     }
     UNLOCK_HSEM(HSEM_ID_0);
+#endif // #if FS_ENABLED
+}
+
+int main(void)
+{
+    MPU_Config();
+    CPU_CACHE_Enable();
+    _wait_for_cpu2_rdy();
+    HAL_Init();
+    SystemClock_Config();
+    setvbuf(stdout,NULL,_IONBF,0);
+    BSP_LED_Init(LED_GREEN);
+    BSP_LED_Init(LED_RED);
+    LCD_Init(); // initializes SDRAM
+    TOUCH_Init();
+
+    _openfs();
 
     CFG_Init();
     AAUART_Init();
@@ -122,6 +137,16 @@ int main(void)
     }
 
     shell_set_protocol_group(CFG_GetParam(CFG_PARAM_SHELL_PROTOCOL));
+
+    // Try to display logo file
+    if (0 == SCREENSHOT_ShowPNG("/aa/logo.png"))
+    {
+        Sleep(1000);
+    }
+
+    BSP_LCD_SelectLayer(0);
+    LCD_FillAll(LCD_BLACK);
+    LCD_ShowActiveLayerOnly();
 
     MainWnd();
 
@@ -329,6 +354,7 @@ bool shell_reset(uint32_t argc, char* const argv[])
 }
 SHELL_CMD_PROTO(reset, "Full device reset", shell_reset, SHELL_PROT_GROUP_ALL);
 
+#if FS_ENABLED
 // Filesystem related shell commands
 static const char * const ff_error_str[] =
 {
@@ -475,3 +501,5 @@ bool _shell_cmd_ls(uint32_t argc, char* const argv[])
     return false;
 }
 SHELL_CMD(ls, "list contents of the current directory", _shell_cmd_ls);
+
+#endif //#if FS_ENABLED

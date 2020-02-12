@@ -67,7 +67,11 @@
                 "FS_ENABLED",
                 "USBD_ENABLED",
                 "RIGEXPERT_PROTOCOL_ENABLED",
-                "_GNU_SOURCE"
+                "_GNU_SOURCE",
+                "LODEPNG_NO_COMPILE_ALLOCATORS",
+                "LODEPNG_NO_COMPILE_DISK",
+                "LODEPNG_NO_COMPILE_ERROR_TEXT",
+                "LODEPNG_NO_COMPILE_ANCILLARY_CHUNKS"
             ],
             "intelliSenseMode": "gcc-x64",
             "cStandard": "c11",

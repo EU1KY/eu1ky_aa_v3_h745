@@ -27,6 +27,7 @@
 #include "stm32h745i_discovery_lcd.h"
 #include "keyboard.h"
 #include "lodepng.h"
+#include "sdram_heap.h"
 
 extern void Sleep(uint32_t);
 
@@ -219,7 +220,6 @@ CRASH_WR:
 }
 
 //Custom allocators for LodePNG using SDRAM heap
-#include "sdram_heap.h"
 void* lodepng_malloc(size_t size)
 {
     return SDRH_malloc(size);
@@ -288,4 +288,63 @@ void SCREENSHOT_SavePNG(const char *fname)
     _Change_B_R((uint32_t*)image);
     LCD_Pop();
 #endif
+}
+
+/**  Display PNG file on the screen
+ *
+ *   The file must exist and must be a valid PNG with 480x272 resolution.
+ * 
+ *   @param fpath : full path to the file
+ * 
+ *   @retval 0 if the image from file has been successfully decoded and is on the screen,
+ *           1 otherwise.
+ */
+int SCREENSHOT_ShowPNG(const char *fpath)
+{
+#if FS_ENABLED
+    FRESULT fres;
+    FIL flogo = { 0 };
+    FILINFO finfo;
+
+    fres = f_stat(fpath, &finfo);
+    if ((fres != FR_OK) || (0 == finfo.fsize) || (finfo.fsize > (SDRH_HEAPSIZE / 4)))
+    {
+        return 1;
+    }
+
+    unsigned char *pngbuf = SDRH_malloc(finfo.fsize);
+    if (0 == pngbuf)
+    {
+        return 1;
+    }
+
+    fres = f_open(&flogo, fpath, FA_READ);
+    if (FR_OK == fres)
+    {
+        UINT br = 0;
+        f_read(&flogo, pngbuf, finfo.fsize, &br);
+        f_close(&flogo);
+
+        unsigned char *outaddr = 0;
+        unsigned w = 0;
+        unsigned h = 0;
+        unsigned pngres = lodepng_decode32(&outaddr, &w, &h, pngbuf, (size_t)finfo.fsize);
+        SDRH_free(pngbuf);
+
+        if (0 == pngres && 0 != outaddr && w == LCD_GetWidth() && h == LCD_GetHeight())
+        {
+            _Change_B_R((uint32_t*)outaddr);
+            BSP_LCD_SelectLayer(!BSP_LCD_GetActiveLayer());
+            memcpy((void*)BSP_LCD_GetActiveLayerStartAddress(), outaddr, LCD_GetWidth() * LCD_GetHeight() * sizeof(uint32_t));
+            SDRH_free(outaddr);
+            LCD_ShowActiveLayerOnly();
+            return 0;
+        }
+        if (0 != outaddr)
+        {
+            SDRH_free(outaddr);
+        }
+    }
+#endif // #if FS_ENABLED
+    return 1;
 }

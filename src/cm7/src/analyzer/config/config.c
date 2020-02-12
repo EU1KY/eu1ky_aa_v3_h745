@@ -412,7 +412,7 @@ void CFG_Init(void)
     FILINFO finfo;
     res = f_stat(g_cfg_fpath, &finfo);
     if (FR_NOT_ENABLED == res || FR_NOT_READY == res)
-        CRASH("No SD card");
+        CRASH("No eMMC card");
     if (FR_OK == res)
     {
         //Configuration file has been found on the SD card
