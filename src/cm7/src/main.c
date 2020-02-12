@@ -141,7 +141,11 @@ int main(void)
     // Try to display logo file
     if (0 == SCREENSHOT_ShowPNG("/aa/logo.png"))
     {
-        Sleep(1000);
+        Sleep(2000);
+        while (TOUCH_IsPressed())
+        {
+            Sleep(20);
+        }
     }
 
     BSP_LCD_SelectLayer(0);

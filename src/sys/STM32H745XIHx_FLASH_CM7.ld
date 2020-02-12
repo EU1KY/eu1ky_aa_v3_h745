@@ -57,7 +57,7 @@ _estack = 0x20020000;    /* end of DTCM RAM */
 /* Generate a link error if heap and stack don't fit into RAM */
 _Min_Heap_Size = 0x400;      /* required amount of heap  */
 _Min_Stack_Size = 0x2000; /* required amount of stack */
-_SDRAM_HEAP_SIZE = 0x180000; /* required amount of SDRAM heap. Must be agreed with definition in sdram_heap.c */
+_SDRAM_HEAP_SIZE = 0x200000; /* required amount of SDRAM heap. Must be agreed with definition in sdram_heap.h */
 
 /* Specify the memory areas */
 MEMORY
@@ -69,9 +69,9 @@ MEMORY
     SRAM123(xrw)    : ORIGIN = 0x30000000, LENGTH = 288K /* D2 domain, AHB SRAM */
     SRAM4 (xrw)     : ORIGIN = 0x38000000, LENGTH = 64K  /* D3 domain, AHB SRAM, can be used as BDMA buffers */
     BKSRAM (rw)     : ORIGIN = 0x38800000, LENGTH = 4K   /* Backup SRAM */
-    SDRAM (rw)      : ORIGIN = 0xD0400000, LENGTH = 0x00400000  /* SDRAM part available to user - SDRAM banks 2, 3. */
-                                                                /* LCD framebuffers are lonely in separate banks 0 and 1. */
-                                                                /* Do not reuse banks 0 and 1 to prevent LTDC data starvation! */
+    SDRAM (rw)      : ORIGIN = 0xD0200000, LENGTH = 0x00600000  /* SDRAM part available to user - SDRAM banks 1, 2, 3. */
+                                                                /* LCD framebuffers are lonely in bank 0. */
+                                                                /* Do not reuse bank 0 to prevent LTDC data starvation! */
 }
 
 /* Define output sections */
@@ -190,13 +190,6 @@ SECTIONS
     . = ALIGN(8);
   } >RAM
 
-  /* User SDRAM section, right after the LCD framebuffer */
-  .user_sdram (NOLOAD):
-  {
-    KEEP(*(.user_sdram))
-    __user_sdram_end__ = .;
-  } >SDRAM
-
   ._sdram_heap (NOLOAD):
   {
     . = ALIGN(128);
@@ -204,6 +197,13 @@ SECTIONS
     . = . + _SDRAM_HEAP_SIZE;
     __sdram_heap_end__ = .;
     . = ALIGN(8);
+  } >SDRAM
+
+  /* User SDRAM section, right after the LCD framebuffer */
+  .user_sdram (NOLOAD):
+  {
+    KEEP(*(.user_sdram))
+    __user_sdram_end__ = .;
   } >SDRAM
 
   /* D1 AXI SRAM */

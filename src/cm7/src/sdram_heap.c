@@ -14,6 +14,7 @@
 #include <string.h>
 #include "sdram_heap.h"
 
+#define SDRH_BLKSIZE  128
 #define SDRH_NBLOCKS (SDRH_HEAPSIZE / SDRH_BLKSIZE)
 #define SDRH_ADDR(block) (SDRH_START + block * SDRH_BLKSIZE)
 

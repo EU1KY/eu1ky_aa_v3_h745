@@ -12,8 +12,7 @@
 extern "C" {
 #endif
 
-#define SDRH_BLKSIZE  128
-#define SDRH_HEAPSIZE 0x180000  // Must be agreed with linker scrpt's _SDRAM_HEAP_SIZE, and must be multiple of SDRH_BLKSIZE !!!
+#define SDRH_HEAPSIZE 0x200000  // Must be agreed with linker scrpt's _SDRAM_HEAP_SIZE, and must be multiple of SDRH_BLKSIZE !!!
 
 void* SDRH_malloc(size_t nbytes);
 void SDRH_free(void* ptr);
