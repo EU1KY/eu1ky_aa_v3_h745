@@ -111,6 +111,14 @@ uint8_t BSP_MMC_Init(void)
     mmc_state = MMC_ERROR;
   }
 
+  if (MMC_ERROR != mmc_state)
+  {
+    // Set CACHE_CTRL = 0 to disable eMMC cache
+    MMC_Write_ExtCSD_Byte(&uSdHandle, 33, 0);
+    // Set POWER_OFF_NOTIFICATION = 0 (host is unable to notify eMMC about power off)
+    MMC_Write_ExtCSD_Byte(&uSdHandle, 34, 0);
+  }
+
   return  mmc_state;
 }
 

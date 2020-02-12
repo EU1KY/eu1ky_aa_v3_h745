@@ -2745,6 +2745,48 @@ static uint32_t MMC_SendStatus(MMC_HandleTypeDef *hmmc, uint32_t *pCardStatus)
   return HAL_MMC_ERROR_NONE;
 }
 
+HAL_StatusTypeDef MMC_Write_ExtCSD_Byte(MMC_HandleTypeDef *hmmc, uint8_t index, uint8_t value)
+{
+  uint32_t arg = (0x03U << 24) |            // Access = 0b11 (write byte from Value)
+                 ((uint32_t)index << 16) |
+                 ((uint32_t)value << 8);
+
+  uint32_t errorstate = SDMMC_CmdSwitch(hmmc->Instance, arg);
+
+  if(errorstate == HAL_MMC_ERROR_NONE)
+  {
+    /* Check for switch error */
+    errorstate = SDMMC_CmdSendStatus(hmmc->Instance, (uint32_t)(((uint32_t)hmmc->MmcCard.RelCardAdd) << 16U));
+
+    if(errorstate == HAL_MMC_ERROR_NONE)
+    {
+      /* Get command response */
+      uint32_t response = SDMMC_GetResponse(hmmc->Instance, SDMMC_RESP1);
+      if ((response & 0x80U) != 0U)
+      {
+        errorstate = SDMMC_ERROR_UNSUPPORTED_FEATURE;
+      }
+      else
+      {
+        /* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+        uint32_t count = SDMMC_MAX_TRIAL;
+        while(((response & 0x100U) == 0U) && (count != 0U))
+        {
+          count--;
+          errorstate = SDMMC_CmdSendStatus(hmmc->Instance, (uint32_t)(((uint32_t)hmmc->MmcCard.RelCardAdd) << 16U));
+          if(errorstate != HAL_MMC_ERROR_NONE)
+          {
+            break;
+          }
+          /* Get command response */
+          response = SDMMC_GetResponse(hmmc->Instance, SDMMC_RESP1);
+        }
+      }
+    }
+  }
+  return errorstate;
+}
+
 /**
   * @brief  Reads extended CSD register to get the sectors number of the device
   * @param  hmmc: Pointer to MMC handle
