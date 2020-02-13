@@ -81,6 +81,8 @@ for HTML5 based web interface running on the device.
 in the Configuration menu.
 * I am planning to build a new, significantly more capable RF frontend. Its support will be implemented first for this Discovery board, and, probably,
 will be ported back to F746 Discovery, but later.
+* An image file named logo.png can be placed in /aa/ directory. The image must be a PNG with dimensions 480x272 pixels. If it is there, and strictly
+satisfies the specified dimensions, it will be displayed when the device boots up.
 
 # License
 
