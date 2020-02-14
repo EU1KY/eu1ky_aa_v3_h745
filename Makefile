@@ -205,7 +205,6 @@ SRCM7 = \
     src/drivers/CMSIS/DSP/Source/CommonTables/arm_common_tables.c
 
 OBJSM7 = $(SRCM7:%.c=$(OBJDIR)/cm7/%.c.o) $(OBJDIR)/cm7/sys/startup_stm32h745xx.o \
-    src/drivers/BSP/STM32H745I-Discovery/libPDMFilter_CM7_GCC_wc32.a \
     $(OBJDIR)/src/drivers/CMSIS/DSP/Source/TransformFunctions/arm_bitreversal2.o
 
 DEPSM7 := $(SRCM7:%.c=$(OBJDIR)/cm7/%.c.d)

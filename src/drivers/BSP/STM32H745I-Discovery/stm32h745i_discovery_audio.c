@@ -870,11 +870,12 @@ uint8_t BSP_AUDIO_IN_InitEx(uint16_t InputDevice, uint32_t AudioFreq, uint32_t B
        */
       slot_active = CODEC_AUDIOFRAME_SLOT_1;
       SAIx_In_Init(SAI_MODEMASTER_RX, slot_active, AudioFreq);
-
+/*
       if(BSP_AUDIO_IN_PDMToPCM_Init(AudioFreq, hAudioIn.ChannelNbr, hAudioIn.ChannelNbr) != AUDIO_OK)
       {
         ret = AUDIO_ERROR;
       }
+*/
     }
     else
     {
