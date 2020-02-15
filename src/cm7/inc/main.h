@@ -3,6 +3,8 @@
 #define __MAIN_H
 
 #include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 /* Includes ------------------------------------------------------------------*/
 #include "debug.h"
@@ -65,6 +67,9 @@
 
 extern RTC_HandleTypeDef RtcHandle;
 extern volatile uint32_t ReloadFlag;
+extern const char *RTC_MonTxt[];
+
+void Sleep(uint32_t nms);
 
 #endif /* __MAIN_H */
 

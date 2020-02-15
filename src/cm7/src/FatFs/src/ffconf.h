@@ -168,7 +168,7 @@
 /* Number of volumes (logical drives) to be used. */
 
 
-#define _STR_VOLUME_ID	0
+#define _STR_VOLUME_ID	4
 #define _VOLUME_STRS	"RAM","NAND","CF","SD","SD2","USB","USB2","USB3"
 /* _STR_VOLUME_ID switches string support of volume ID.
 /  When _STR_VOLUME_ID is set to 1, also pre-defined strings can be used as drive
@@ -232,7 +232,7 @@
 /  Note that enabling exFAT discards C89 compatibility. */
 
 
-#define _FS_NORTC	1
+#define _FS_NORTC	0
 #define _NORTC_MON	1
 #define _NORTC_MDAY	1
 #define _NORTC_YEAR	2020

@@ -21,6 +21,11 @@ FATFS MMCFatFs;  // File system object
 char MMCPath[4]; // Logical drive path
 RTC_HandleTypeDef RtcHandle;
 
+const char *RTC_MonTxt[] =
+{
+    "???", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+};
+
 void Sleep(uint32_t nms)
 {
     uart_rx_proc();
@@ -186,6 +191,20 @@ int main(void)
 void HAL_LTDC_ReloadEventCallback(LTDC_HandleTypeDef *hltdc)
 {
     ReloadFlag = 1;
+}
+
+// For FatFS
+DWORD get_fattime(void)
+{
+    RTC_DateTypeDef date = {0};
+    RTC_TimeTypeDef time = {0};
+    HAL_RTC_GetTime(&RtcHandle, &time, RTC_FORMAT_BIN);
+    HAL_RTC_GetDate(&RtcHandle, &date, RTC_FORMAT_BIN);
+
+    uint32_t timestamp = 0;
+    timestamp |= (((uint32_t)date.Year + 2000U - 1980U) << 25) | ((uint32_t)date.Month << 21) | ((uint32_t)date.Date << 16);
+    timestamp |= ((uint32_t)time.Hours << 11) | ((uint32_t)time.Minutes << 5) | ((uint32_t)time.Seconds / 2);
+    return timestamp;
 }
 
 /**

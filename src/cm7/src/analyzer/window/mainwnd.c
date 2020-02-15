@@ -39,7 +39,6 @@
 extern void Sleep(uint32_t);
 
 static TEXTBOX_CTX_t main_ctx;
-static TEXTBOX_t hbTitle;
 static TEXTBOX_t hbHwCal;
 static TEXTBOX_t hbOslCal;
 static TEXTBOX_t hbConfig;
@@ -47,6 +46,7 @@ static TEXTBOX_t hbPan;
 static TEXTBOX_t hbMeas;
 static TEXTBOX_t hbGen;
 static TEXTBOX_t hbDsp;
+static TEXTBOX_t hbClock;
 static TEXTBOX_t hbUSBD;
 static TEXTBOX_t hbTimestamp;
 static TEXTBOX_t hbTDR;
@@ -109,31 +109,20 @@ static void USBD_Proc(void)
 #endif // USBD_ENABLED
 #endif // FS_ENABLED
 
-static char rtc_txt[64];
-static const char *_montxt[] =
-{
-    "???", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-};
-
-static void _get_rtc_time(void)
+static void _get_rtc_time(char *rtc_txt)
 {
     RTC_DateTypeDef sdatestructureget = {0};
     RTC_TimeTypeDef stimestructureget = {0};
-    //RTC_TimeTypeDef stimestructureget2 = {0};
 
-    //do
-    {
-        HAL_RTC_GetTime(&RtcHandle, &stimestructureget, RTC_FORMAT_BIN);
-        HAL_RTC_GetDate(&RtcHandle, &sdatestructureget, RTC_FORMAT_BIN);
-        //HAL_RTC_GetTime(&RtcHandle, &stimestructureget2, RTC_FORMAT_BIN);
-    } //while (stimestructureget.Seconds == stimestructureget2.Seconds);
+    HAL_RTC_GetTime(&RtcHandle, &stimestructureget, RTC_FORMAT_BIN);
+    HAL_RTC_GetDate(&RtcHandle, &sdatestructureget, RTC_FORMAT_BIN);
 
     if (sdatestructureget.Month > 12)
     {
         sdatestructureget.Month = 0;
     }
     sprintf(rtc_txt, "%s %.2d, %.2d %.2d:%.2d:%.2d",
-        _montxt[sdatestructureget.Month], sdatestructureget.Date, 2000 + sdatestructureget.Year,
+        RTC_MonTxt[sdatestructureget.Month], sdatestructureget.Date, 2000 + sdatestructureget.Year,
         stimestructureget.Hours, stimestructureget.Minutes, stimestructureget.Seconds);
 }
 
@@ -152,27 +141,29 @@ void MainWnd(void)
 
     //Create menu items and append to textbox context
 
-    hbTitle = (TEXTBOX_t) {.x0 = COL1, .y0 = 0, .text = " Main menu ", .font = FONT_FRANBIG,
-                            .fgcolor = LCD_WHITE, .bgcolor = LCD_BLACK };
-    TEXTBOX_Append(&main_ctx, &hbTitle);
-
     //HW calibration menu
-    hbHwCal = (TEXTBOX_t){.x0 = COL1, .y0 = 50, .text =    " HW Calibration  ", .font = FONT_FRANBIG,
+    hbHwCal = (TEXTBOX_t){.x0 = COL1, .y0 = 0, .text =    " HW Calibration  ", .font = FONT_FRANBIG,
                             .fgcolor = M_FGCOLOR, .bgcolor = M_BGCOLOR, .cb = OSL_CalErrCorr,
                             .border = TEXTBOX_BORDER_BUTTON };
     TEXTBOX_Append(&main_ctx, &hbHwCal);
 
     //OSL calibration menu
-    hbOslCal = (TEXTBOX_t){.x0 = COL1, .y0 = 100, .text =  " OSL Calibration ", .font = FONT_FRANBIG,
+    hbOslCal = (TEXTBOX_t){.x0 = COL1, .y0 = 50, .text =  " OSL Calibration ", .font = FONT_FRANBIG,
                             .fgcolor = M_FGCOLOR, .bgcolor = M_BGCOLOR, .cb = OSL_CalWnd,
                             .border = TEXTBOX_BORDER_BUTTON };
     TEXTBOX_Append(&main_ctx, &hbOslCal);
 
     //Device configuration menu
-    hbConfig = (TEXTBOX_t){.x0 = COL1, .y0 = 150, .text = " Configuration  ", .font = FONT_FRANBIG,
+    hbConfig = (TEXTBOX_t){.x0 = COL1, .y0 = 100, .text = " Configuration  ", .font = FONT_FRANBIG,
                             .fgcolor = M_FGCOLOR, .bgcolor = M_BGCOLOR, .cb = CFG_ParamWnd,
                             .border = TEXTBOX_BORDER_BUTTON };
     TEXTBOX_Append(&main_ctx, &hbConfig);
+
+    //Clock setup
+    hbClock = (TEXTBOX_t){.x0 = COL1, .y0 = 150, .text =   " Set clock ", .font = FONT_FRANBIG,
+                            .fgcolor = M_FGCOLOR, .bgcolor = M_BGCOLOR, .cb = CFG_RTC_Wnd,
+                            .border = TEXTBOX_BORDER_BUTTON };
+    TEXTBOX_Append(&main_ctx, &hbClock);
 
     //USB access
     hbUSBD = (TEXTBOX_t){.x0 = COL1, .y0 = 200, .text =   " USB FS cardrdr ", .font = FONT_FRANBIG,
@@ -216,8 +207,6 @@ void MainWnd(void)
     //Draw context
     TEXTBOX_DrawContext(&main_ctx);
 
-    //PROTOCOL_Reset();
-
     //Main loop
     uint32_t rtcctr = HAL_GetTick();
     for(;;)
@@ -237,7 +226,8 @@ void MainWnd(void)
 
         if (HAL_GetTick() - rtcctr > 100U)
         {
-            _get_rtc_time();
+            char rtc_txt[64];
+            _get_rtc_time(rtc_txt);
             LCD_ShowActiveLayerOnly();
             FONT_Write(FONT_FRAN, LCD_YELLOW, LCD_BLACK, 0, 240, rtc_txt);
             rtcctr = HAL_GetTick();

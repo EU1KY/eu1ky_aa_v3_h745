@@ -32,7 +32,8 @@
 			"stm32h745i_discovery_mmc.h": "c",
 			"usbd_def.h": "c",
 			"config.h": "c",
-			"lodepng.h": "c"
+			"lodepng.h": "c",
+			"random": "c"
 		},
 		"actionButtons": {
 			"defaultColor": "#ff0034", // Can also use string color names.

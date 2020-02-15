@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include "stm32h745i_discovery.h"
 #include "shell.h"
+#include "main.h"
 
 static uint32_t g_cfg_array[CFG_NUM_PARAMS] = { 0 };
 #if FS_ENABLED
@@ -806,8 +807,391 @@ void CFG_ParamWnd(void)
     }
 }
 
+//-----------------------------------------
+// Clock setting window
+//-----------------------------------------
+
+typedef struct _rtc_setup_t
+{
+    TEXTBOX_CTX_t *ctx;
+    RTC_DateTypeDef date;
+    RTC_TimeTypeDef time;
+    bool rtc_exit;
+    uint32_t hbDayIdx;
+    uint32_t hbMonIdx;
+    uint32_t hbYearIdx;
+    uint32_t hbHHIdx;
+    uint32_t hbMMIdx;
+    char daytxt[8];
+    char montxt[8];
+    char yeartxt[8];
+    char hhtxt[8];
+    char mmtxt[8];
+} rtc_setup_t;
+
+#define RTC_DAYY 0
+#define RTC_MONY 40
+#define RTC_YEARY 80
+#define RTC_HHY 120
+#define RTC_MMY 160
+#define RTC_BTNY 230
+
+static rtc_setup_t *pRTC_Setup;
+
+static void day_next(void)
+{
+    pRTC_Setup->date.Date++;
+    if (pRTC_Setup->date.Month == 2)
+    {
+        if (pRTC_Setup->date.Year % 4 == 0) // simplified leap year in XXI century
+        {
+            if (pRTC_Setup->date.Date > 29)
+            {
+                pRTC_Setup->date.Date = 1;
+            }
+        }
+        else
+        {
+            if (pRTC_Setup->date.Date > 28)
+            {
+                pRTC_Setup->date.Date = 1;
+            }
+        }
+    }
+    else if (pRTC_Setup->date.Month == 4 || pRTC_Setup->date.Month == 6 || pRTC_Setup->date.Month == 9 || pRTC_Setup->date.Month == 11)
+    {
+        if (pRTC_Setup->date.Date > 30)
+        {
+            pRTC_Setup->date.Date = 1;
+        }
+    }
+    else
+    {
+        if (pRTC_Setup->date.Date > 31)
+        {
+            pRTC_Setup->date.Date = 1;
+        }
+    }
+    sprintf(pRTC_Setup->daytxt,"%2u ", pRTC_Setup->date.Date);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbDayIdx, pRTC_Setup->daytxt);
+}
+
+static void day_prev(void)
+{
+    pRTC_Setup->date.Date--;
+    if (pRTC_Setup->date.Date == 0)
+    {
+        if (pRTC_Setup->date.Month == 2)
+        {
+            if (pRTC_Setup->date.Year % 4 == 0) // simplified leap year in XXI century
+            {
+                pRTC_Setup->date.Date = 29;
+            }
+            else
+            {
+                pRTC_Setup->date.Date = 28;
+            }
+        }
+        else if (pRTC_Setup->date.Month == 4 || pRTC_Setup->date.Month == 6 || pRTC_Setup->date.Month == 9 || pRTC_Setup->date.Month == 11)
+        {
+            pRTC_Setup->date.Date = 30;
+        }
+        else
+        {
+            pRTC_Setup->date.Date = 31;
+        }
+    }
+    sprintf(pRTC_Setup->daytxt, "%2u ", pRTC_Setup->date.Date);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbDayIdx, pRTC_Setup->daytxt);
+}
+
+static void fix_date(void)
+{
+    bool fix = false;
+    if (pRTC_Setup->date.Month == 2)
+    {
+        if (pRTC_Setup->date.Year % 4 == 0) // simplified leap year in XXI century
+        {
+            if (pRTC_Setup->date.Date > 29)
+            {
+                pRTC_Setup->date.Date = 29;
+                fix = true;
+            }
+        }
+        else
+        {
+            if (pRTC_Setup->date.Date > 28)
+            {
+                pRTC_Setup->date.Date = 28;
+                fix = true;
+            }
+        }
+    }
+    else if (pRTC_Setup->date.Month == 4 || pRTC_Setup->date.Month == 6 || pRTC_Setup->date.Month == 9 || pRTC_Setup->date.Month == 11)
+    {
+        if (pRTC_Setup->date.Date > 30)
+        {
+            pRTC_Setup->date.Date = 30;
+            fix = true;
+        }
+    }
+    if (fix)
+    {
+        sprintf(pRTC_Setup->daytxt, "%2u ", pRTC_Setup->date.Date);
+        TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbDayIdx, pRTC_Setup->daytxt);
+    }
+}
+
+static void mon_next(void)
+{
+    pRTC_Setup->date.Month++;
+    if (pRTC_Setup->date.Month > 12)
+    {
+        pRTC_Setup->date.Month = 1;
+    }
+    sprintf(pRTC_Setup->montxt, "%s  ", RTC_MonTxt[pRTC_Setup->date.Month]);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbMonIdx, pRTC_Setup->montxt);
+    fix_date();
+}
+
+static void mon_prev(void)
+{
+    if (pRTC_Setup->date.Month == 1)
+    {
+        pRTC_Setup->date.Month = 12;
+    }
+    else
+    {
+        pRTC_Setup->date.Month--;
+    }
+    sprintf(pRTC_Setup->montxt, "%s  ", RTC_MonTxt[pRTC_Setup->date.Month]);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbMonIdx, pRTC_Setup->montxt);
+    fix_date();
+}
+
+static void year_next(void)
+{
+    if (0 == pRTC_Setup->date.Year)
+    {
+        pRTC_Setup->date.Year = 19;
+    }
+    if (pRTC_Setup->date.Year < 60)
+    {
+        pRTC_Setup->date.Year++;
+    }
+    sprintf(pRTC_Setup->yeartxt, "%u ", 2000 + pRTC_Setup->date.Year);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbYearIdx, pRTC_Setup->yeartxt);
+    fix_date();
+}
+
+static void year_prev(void)
+{
+    if (pRTC_Setup->date.Year > 20)
+    {
+        pRTC_Setup->date.Year--;
+    }
+    sprintf(pRTC_Setup->yeartxt, "%u ", 2000 + pRTC_Setup->date.Year);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbYearIdx, pRTC_Setup->yeartxt);
+    fix_date();
+}
+
+static void hh_next(void)
+{
+    if (pRTC_Setup->time.Hours < 23)
+    {
+        pRTC_Setup->time.Hours++;
+    }
+    else
+    {
+        pRTC_Setup->time.Hours = 0;
+    }
+    sprintf(pRTC_Setup->hhtxt, "%02u ", pRTC_Setup->time.Hours);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbHHIdx, pRTC_Setup->hhtxt);
+}
+
+static void hh_prev(void)
+{
+    if (pRTC_Setup->time.Hours != 0)
+    {
+        pRTC_Setup->time.Hours--;
+    }
+    else
+    {
+        pRTC_Setup->time.Hours = 23;
+    }
+    sprintf(pRTC_Setup->hhtxt, "%02u ", pRTC_Setup->time.Hours);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbHHIdx, pRTC_Setup->hhtxt);
+}
+
+static void min_next(void)
+{
+    if (pRTC_Setup->time.Minutes < 59)
+    {
+        pRTC_Setup->time.Minutes++;
+    }
+    else
+    {
+        pRTC_Setup->time.Minutes = 0;
+    }
+    sprintf(pRTC_Setup->mmtxt, "%02u ", pRTC_Setup->time.Minutes);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbMMIdx, pRTC_Setup->mmtxt);
+}
+
+static void min_prev(void)
+{
+
+    if (pRTC_Setup->time.Minutes != 0)
+    {
+        pRTC_Setup->time.Minutes--;
+    }
+    else
+    {
+        pRTC_Setup->time.Minutes = 59;
+    }
+    sprintf(pRTC_Setup->mmtxt, "%02u ", pRTC_Setup->time.Minutes);
+    TEXTBOX_SetText(pRTC_Setup->ctx, pRTC_Setup->hbMMIdx, pRTC_Setup->mmtxt);
+}
+
+static void cb_set(void)
+{
+    pRTC_Setup->rtc_exit = true;
+    pRTC_Setup->time.Seconds = 0;
+    pRTC_Setup->time.SecondFraction = 0;
+    fix_date();
+    HAL_RTC_SetDate(&RtcHandle, &pRTC_Setup->date, RTC_FORMAT_BIN);
+    HAL_RTC_SetTime(&RtcHandle, &pRTC_Setup->time, RTC_FORMAT_BIN);
+}
+
+static void cb_cancel(void)
+{
+    pRTC_Setup->rtc_exit = true;
+}
+
+static void rtc_fill_texts(rtc_setup_t *rtc)
+{
+    HAL_RTC_GetTime(&RtcHandle, &rtc->time, RTC_FORMAT_BIN);
+    HAL_RTC_GetDate(&RtcHandle, &rtc->date, RTC_FORMAT_BIN);
+    sprintf(rtc->daytxt, "%2u", rtc->date.Date);
+    sprintf(rtc->montxt, "%s", RTC_MonTxt[rtc->date.Month]);
+    sprintf(rtc->yeartxt, "%u", 2000 + rtc->date.Year);
+    sprintf(rtc->hhtxt, "%02u", rtc->time.Hours);
+    sprintf(rtc->mmtxt, "%02u", rtc->time.Minutes);
+}
+
 // RTC clock setting
 void CFG_RTC_Wnd(void)
 {
+    rtc_setup_t rtc = {0};
+    TEXTBOX_CTX_t rtc_ctx;
+    rtc.ctx = &rtc_ctx;
+    pRTC_Setup = &rtc;
 
+    LCD_FillAll(LCD_BLACK);
+    while (TOUCH_IsPressed());
+
+    FONT_Write (FONT_FRANBIG, LCD_WHITE, LCD_BLACK, 5, RTC_DAYY, "Day");
+    FONT_Write (FONT_FRANBIG, LCD_WHITE, LCD_BLACK, 5, RTC_MONY, "Month");
+    FONT_Write (FONT_FRANBIG, LCD_WHITE, LCD_BLACK, 5, RTC_YEARY, "Year");
+    FONT_Write (FONT_FRANBIG, LCD_WHITE, LCD_BLACK, 5, RTC_HHY, "Hours");
+    FONT_Write (FONT_FRANBIG, LCD_WHITE, LCD_BLACK, 5, RTC_MMY, "Minutes");
+
+    TEXTBOX_InitContext(&rtc_ctx);
+
+    TEXTBOX_t hbDayL = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = day_prev,
+        .nowait = 50, .x0 = 100, .y0 = RTC_DAYY, .text = " < ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbDayL);
+    TEXTBOX_t hbDayR = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = day_next,
+        .nowait = 50, .x0 = 250, .y0 = RTC_DAYY, .text = " > ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbDayR);
+
+    TEXTBOX_t hbMonL = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = mon_prev,
+        .nowait = 50, .x0 = 100, .y0 = RTC_MONY, .text = " < ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbMonL);
+    TEXTBOX_t hbMonR = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = mon_next,
+        .nowait = 50, .x0 = 250, .y0 = RTC_MONY, .text = " > ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbMonR);
+
+    TEXTBOX_t hbYearL = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = year_prev,
+        .nowait = 50, .x0 = 100, .y0 = RTC_YEARY, .text = " < ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbYearL);
+    TEXTBOX_t hbYearR = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = year_next,
+        .nowait = 50, .x0 = 250, .y0 = RTC_YEARY, .text = " > ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbYearR);
+
+    TEXTBOX_t hbHHL = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = hh_prev,
+        .nowait = 50, .x0 = 100, .y0 = RTC_HHY, .text = " < ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbHHL);
+    TEXTBOX_t hbHHR = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = hh_next,
+        .nowait = 50, .x0 = 250, .y0 = RTC_HHY, .text = " > ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbHHR);
+
+    TEXTBOX_t hbMML = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = min_prev,
+        .nowait = 50, .x0 = 100, .y0 = RTC_MMY, .text = " < ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbMML);
+    TEXTBOX_t hbMMR = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = min_next,
+        .nowait = 50, .x0 = 250, .y0 = RTC_MMY, .text = " > ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLUE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbMMR);
+
+    TEXTBOX_t hbCancel = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = cb_cancel,
+        .x0 = 100, .y0 = RTC_BTNY, .text = " Cancel ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_DPURPLE
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbCancel);
+    TEXTBOX_t hbSet = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT, .border = TEXTBOX_BORDER_BUTTON, .cb = cb_set,
+        .x0 = 300, .y0 = RTC_BTNY, .text = "  Set  ", .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_DGREEN
+     };
+    TEXTBOX_Append(&rtc_ctx, &hbSet);
+
+    TEXTBOX_t hbDayTxt = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT,
+        .x0 = 150, .y0 = RTC_DAYY, .text = rtc.daytxt, .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLACK
+     };
+    rtc.hbDayIdx = TEXTBOX_Append(&rtc_ctx, &hbDayTxt);
+
+    TEXTBOX_t hbMonTxt = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT,
+        .x0 = 150, .y0 = RTC_MONY, .text = rtc.montxt, .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLACK
+     };
+    rtc.hbMonIdx = TEXTBOX_Append(&rtc_ctx, &hbMonTxt);
+
+    TEXTBOX_t hbYearTxt = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT,
+        .x0 = 150, .y0 = RTC_YEARY, .text = rtc.yeartxt, .font = FONT_FRANBIG, .fgcolor = LCD_YELLOW, .bgcolor = LCD_BLACK
+     };
+    rtc.hbYearIdx = TEXTBOX_Append(&rtc_ctx, &hbYearTxt);
+
+    TEXTBOX_t hbHHTxt = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT,
+        .x0 = 150, .y0 = RTC_HHY, .text = rtc.hhtxt, .font = FONT_FRANBIG, .fgcolor = LCD_GREEN, .bgcolor = LCD_BLACK
+     };
+    rtc.hbHHIdx = TEXTBOX_Append(&rtc_ctx, &hbHHTxt);
+
+    TEXTBOX_t hbMMTxt = (TEXTBOX_t){.type = TEXTBOX_TYPE_TEXT,
+        .x0 = 150, .y0 = RTC_MMY, .text = rtc.mmtxt, .font = FONT_FRANBIG, .fgcolor = LCD_GREEN, .bgcolor = LCD_BLACK
+     };
+    rtc.hbMMIdx = TEXTBOX_Append(&rtc_ctx, &hbMMTxt);
+
+    rtc_fill_texts(&rtc);
+
+    TEXTBOX_DrawContext((void*)&rtc_ctx);
+
+    while (1)
+    {
+        Sleep(50);
+        TEXTBOX_HitTest(&rtc_ctx);
+        if (rtc.rtc_exit)
+        {
+            break;
+        }
+    }
+
+    while (TOUCH_IsPressed())
+    {
+        Sleep(10);
+    }
 }
