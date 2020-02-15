@@ -805,3 +805,9 @@ void CFG_ParamWnd(void)
         Sleep(0);
     }
 }
+
+// RTC clock setting
+void CFG_RTC_Wnd(void)
+{
+
+}

@@ -78,5 +78,6 @@ uint32_t CFG_GetParam(CFG_PARAM_t param);
 void CFG_SetParam(CFG_PARAM_t param, uint32_t value);
 void CFG_Flush(void);
 void CFG_ParamWnd(void);
+void CFG_RTC_Wnd(void);
 
 #endif // _CONFIG_H_

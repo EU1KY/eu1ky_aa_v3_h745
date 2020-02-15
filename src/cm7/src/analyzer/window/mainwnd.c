@@ -109,6 +109,33 @@ static void USBD_Proc(void)
 #endif // USBD_ENABLED
 #endif // FS_ENABLED
 
+static char rtc_txt[64];
+static const char *_montxt[] =
+{
+    "???", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+};
+
+static void _get_rtc_time(void)
+{
+    RTC_DateTypeDef sdatestructureget = {0};
+    RTC_TimeTypeDef stimestructureget = {0};
+    //RTC_TimeTypeDef stimestructureget2 = {0};
+
+    //do
+    {
+        HAL_RTC_GetTime(&RtcHandle, &stimestructureget, RTC_FORMAT_BIN);
+        HAL_RTC_GetDate(&RtcHandle, &sdatestructureget, RTC_FORMAT_BIN);
+        //HAL_RTC_GetTime(&RtcHandle, &stimestructureget2, RTC_FORMAT_BIN);
+    } //while (stimestructureget.Seconds == stimestructureget2.Seconds);
+
+    if (sdatestructureget.Month > 12)
+    {
+        sdatestructureget.Month = 0;
+    }
+    sprintf(rtc_txt, "%s %.2d, %.2d %.2d:%.2d:%.2d",
+        _montxt[sdatestructureget.Month], sdatestructureget.Date, 2000 + sdatestructureget.Year,
+        stimestructureget.Hours, stimestructureget.Minutes, stimestructureget.Seconds);
+}
 
 // ================================================================================================
 // Main window procedure (never returns)
@@ -192,6 +219,7 @@ void MainWnd(void)
     //PROTOCOL_Reset();
 
     //Main loop
+    uint32_t rtcctr = HAL_GetTick();
     for(;;)
     {
         Sleep(0); //for autosleep to work
@@ -203,10 +231,16 @@ void MainWnd(void)
             LCD_FillAll(LCD_BLACK);
             TEXTBOX_DrawContext(&main_ctx);
             LCD_ShowActiveLayerOnly();
-            //PROTOCOL_Reset();
         }
         extern void uart_rx_proc(void);
         uart_rx_proc();
-        //PROTOCOL_Handler();
+
+        if (HAL_GetTick() - rtcctr > 100U)
+        {
+            _get_rtc_time();
+            LCD_ShowActiveLayerOnly();
+            FONT_Write(FONT_FRAN, LCD_YELLOW, LCD_BLACK, 0, 240, rtc_txt);
+            rtcctr = HAL_GetTick();
+        }
     }
 }

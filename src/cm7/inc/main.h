@@ -49,5 +49,22 @@
 
 #define HSEM_ID_0 (0U) // HW semaphore 0
 
+/* Defines related to Clock configuration */
+/* Uncomment to enable the adaquate Clock Source */
+#define RTC_CLOCK_SOURCE_LSE
+
+#ifdef RTC_CLOCK_SOURCE_LSI
+#define RTC_ASYNCH_PREDIV    0x7F
+#define RTC_SYNCH_PREDIV     0xF9
+#endif
+
+#ifdef RTC_CLOCK_SOURCE_LSE
+#define RTC_ASYNCH_PREDIV  0x7F
+#define RTC_SYNCH_PREDIV   0x00FF
+#endif
+
+extern RTC_HandleTypeDef RtcHandle;
+extern volatile uint32_t ReloadFlag;
+
 #endif /* __MAIN_H */
 

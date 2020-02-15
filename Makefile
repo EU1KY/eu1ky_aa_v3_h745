@@ -188,7 +188,9 @@ SRCM7 = \
     src/drivers/STM32H7xx_HAL_Driver/src/stm32h7xx_ll_sdmmc.c \
     src/drivers/STM32H7xx_HAL_Driver/src/stm32h7xx_hal_pcd.c \
     src/drivers/STM32H7xx_HAL_Driver/src/stm32h7xx_hal_pcd_ex.c \
-     src/drivers/STM32H7xx_HAL_Driver/src/stm32h7xx_ll_usb.c \
+    src/drivers/STM32H7xx_HAL_Driver/src/stm32h7xx_ll_usb.c \
+    src/drivers/STM32H7xx_HAL_Driver/src/stm32h7xx_hal_rtc.c \
+    src/drivers/STM32H7xx_HAL_Driver/src/stm32h7xx_hal_rtc_ex.c \
     src/drivers/BSP/STM32H745I-Discovery/stm32h745i_discovery.c \
     src/drivers/BSP/STM32H745I-Discovery/stm32h745i_discovery_sdram.c \
     src/drivers/BSP/STM32H745I-Discovery/stm32h745i_discovery_lcd.c \

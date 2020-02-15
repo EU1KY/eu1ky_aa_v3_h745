@@ -19,6 +19,7 @@ volatile uint32_t autosleep_timer = 0xFFFFFFFFul;
 
 FATFS MMCFatFs;  // File system object
 char MMCPath[4]; // Logical drive path
+RTC_HandleTypeDef RtcHandle;
 
 void Sleep(uint32_t nms)
 {
@@ -57,6 +58,30 @@ void Sleep(uint32_t nms)
 static void SystemClock_Config(void);
 static void CPU_CACHE_Enable(void);
 static void MPU_Config(void);
+
+static void _RTC_Config(void)
+{
+    RtcHandle.Instance = RTC;
+
+    /* Configure RTC prescaler and RTC data registers */
+    /* RTC configured as follows:
+        - Hour Format    = Format 24
+        - Asynch Prediv  = Value according to source clock
+        - Synch Prediv   = Value according to source clock
+        - OutPut         = Output Disable
+        - OutPutPolarity = High Polarity
+        - OutPutType     = Open Drain */
+    RtcHandle.Init.HourFormat     = RTC_HOURFORMAT_24;
+    RtcHandle.Init.AsynchPrediv   = RTC_ASYNCH_PREDIV;
+    RtcHandle.Init.SynchPrediv    = RTC_SYNCH_PREDIV;
+    RtcHandle.Init.OutPut         = RTC_OUTPUT_DISABLE;
+    RtcHandle.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+    RtcHandle.Init.OutPutType     = RTC_OUTPUT_TYPE_OPENDRAIN;
+    if (HAL_RTC_Init(&RtcHandle) != HAL_OK)
+    {
+        for(;;);
+    }
+}
 
 __attribute((unused)) static void _wait_for_cpu2_rdy(void)
 {
@@ -115,6 +140,7 @@ int main(void)
     _wait_for_cpu2_rdy();
     HAL_Init();
     SystemClock_Config();
+    _RTC_Config();
     setvbuf(stdout,NULL,_IONBF,0);
     BSP_LED_Init(LED_GREEN);
     BSP_LED_Init(LED_RED);
