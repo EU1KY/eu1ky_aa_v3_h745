@@ -83,6 +83,9 @@ in the Configuration menu.
 will be ported back to F746 Discovery, but later.
 * An image file named logo.png can be placed in /aa/ directory. The image must be a PNG with dimensions 480x272 pixels. If it is there, and strictly
 satisfies the specified dimensions, it will be displayed when the device boots up.
+* The board uses built-in real time clock now. A 3.3V backup battery cell can be connected to the board to preserve clock running always: SB23 (near the CPU)
+should be desoldered, and battery plus should be connected to CPU's Vbat input (SB23 contact near the CPU), battery minus should be connected to the ground
+plane.
 
 # License
 
