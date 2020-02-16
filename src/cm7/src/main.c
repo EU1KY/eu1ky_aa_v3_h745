@@ -392,6 +392,68 @@ void CRASH(const char *text)
     for(;;);
 }
 
+bool shell_time(uint32_t argc, char* const argv[])
+{
+    (void)argc;
+    (void)argv;
+    RTC_DateTypeDef sdatestructureget = {0};
+    RTC_TimeTypeDef stimestructureget = {0};
+    HAL_RTC_GetTime(&RtcHandle, &stimestructureget, RTC_FORMAT_BIN);
+    HAL_RTC_GetDate(&RtcHandle, &sdatestructureget, RTC_FORMAT_BIN);
+    printf("%s %.2d, %.2d %.2d:%.2d:%.2d\r\n",
+        RTC_MonTxt[sdatestructureget.Month], sdatestructureget.Date, 2000 + sdatestructureget.Year,
+        stimestructureget.Hours, stimestructureget.Minutes, stimestructureget.Seconds);
+    return true;
+}
+SHELL_CMD(time, "Print current date and time", shell_time);
+
+bool shell_settime(uint32_t argc, char* const argv[])
+{
+    if (argc != 3)
+    {
+badargs:
+        printf("Usage: settime HH MM\r\n");
+        return true;
+    }
+    uint32_t args[2];
+    shell_get_args(args);
+    RTC_TimeTypeDef stime = {0};
+    stime.Hours = args[0];
+    stime.Minutes = args[1];
+    if (!RTC_isTimeSane(&stime))
+    {
+        goto badargs;
+    }
+    HAL_RTC_SetTime(&RtcHandle, &stime, RTC_FORMAT_BIN);
+    return shell_time(argc, argv);
+}
+SHELL_CMD(settime, "Set time", shell_settime);
+
+bool shell_setdate(uint32_t argc, char* const argv[])
+{
+    if (argc != 4)
+    {
+badargs:
+        printf("Usage: setdate DD MM YY\r\n  DD: 1..31, MM: 1:12, YY: 20..60\r\n");
+        return true;
+    }
+    uint32_t args[3];
+    shell_get_args(args);
+
+    RTC_DateTypeDef sdate = {0};
+    sdate.Date = args[0];
+    sdate.Month = args[1];
+    sdate.Year = args[2];
+    sdate.WeekDay = RTC_WEEKDAY_MONDAY; // fake, unused
+    if (!RTC_isDateSane(&sdate))
+    {
+        goto badargs;
+    }
+    HAL_RTC_SetDate(&RtcHandle, &sdate, RTC_FORMAT_BIN);
+    return shell_time(argc, argv);
+}
+SHELL_CMD(setdate, "Set date", shell_setdate);
+
 /* RESET shell command */
 bool shell_reset(uint32_t argc, char* const argv[])
 {

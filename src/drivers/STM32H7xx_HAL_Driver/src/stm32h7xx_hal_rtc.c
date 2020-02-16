@@ -1842,6 +1842,51 @@ uint8_t RTC_Bcd2ToByte(uint8_t Value)
   return (tmp + (Value & 0x0Fu));
 }
 
+bool RTC_isTimeSane(RTC_TimeTypeDef *time)
+{
+    if (time->Hours > 23 || time->Minutes > 59)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool RTC_isDateSane(RTC_DateTypeDef *date)
+{
+    uint8_t day = date->Date;
+    uint8_t mon = date->Month;
+    uint8_t year = date->Year;
+    if (day == 0 || day > 31 || mon == 0 || mon > 12 || year > 60 || year < 20)
+    {
+        return false;
+    }
+    if (mon == 2)
+    {
+        if ((year % 4) == 0)
+        {
+            if (day > 29)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (day > 28)
+            {
+                return false;
+            }
+        }
+    }
+    else if (mon == 4 || mon == 6 || mon == 9 || mon == 11)
+    {
+            if (day > 30)
+            {
+                return false;
+            }
+    }
+    return true;
+}
+
 /**
   * @}
   */

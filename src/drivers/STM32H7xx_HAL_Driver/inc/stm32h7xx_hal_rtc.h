@@ -27,6 +27,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal_def.h"
+#include <stdbool.h>
 
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
@@ -930,7 +931,8 @@ HAL_RTCStateTypeDef HAL_RTC_GetState(RTC_HandleTypeDef *hrtc);
 HAL_StatusTypeDef  RTC_EnterInitMode(RTC_HandleTypeDef* hrtc);
 uint8_t            RTC_ByteToBcd2(uint8_t Value);
 uint8_t            RTC_Bcd2ToByte(uint8_t Value);
-
+bool RTC_isTimeSane(RTC_TimeTypeDef *time);
+bool RTC_isDateSane(RTC_DateTypeDef *date);
 /**
   * @}
   */
