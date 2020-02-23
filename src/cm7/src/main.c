@@ -172,7 +172,7 @@ int main(void)
     // Try to display logo file
     if (0 == SCREENSHOT_ShowPNG("/aa/logo.png"))
     {
-        Sleep(2000);
+        Sleep(1000);
         while (TOUCH_IsPressed())
         {
             Sleep(20);
