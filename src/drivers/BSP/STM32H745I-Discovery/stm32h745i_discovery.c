@@ -477,9 +477,13 @@ RETRY:
   /* Check the communication status */
   if(status != HAL_OK)
   {
-    /* Execute user timeout callback */
+    uint32_t err = hdiscovery_I2c.ErrorCode;
+    // Re-Initiaize the I2C Bus
     I2Cx_Error(Addr);
-    goto RETRY;
+    if (HAL_I2C_ERROR_TIMEOUT & err)
+    {
+      goto RETRY;
+    }
   }
 }
 
@@ -500,9 +504,13 @@ RETRY:
   /* Check the communication status */
   if(status != HAL_OK)
   {
-    /* Execute user timeout callback */
+    uint32_t err = hdiscovery_I2c.ErrorCode;
+    // Re-Initiaize the I2C Bus
     I2Cx_Error(Addr);
-    goto RETRY;
+    if (HAL_I2C_ERROR_TIMEOUT & err)
+    {
+      goto RETRY;
+    }
   }
   return Value;
 }
@@ -526,9 +534,13 @@ RETRY:
   /* Check the communication status */
   if(status != HAL_OK)
   {
-    /* I2C error occurred */
+    uint32_t err = hdiscovery_I2c.ErrorCode;
+    // Re-Initiaize the I2C Bus
     I2Cx_Error(Addr);
-    goto RETRY;
+    if (HAL_I2C_ERROR_TIMEOUT & err)
+    {
+      goto RETRY;
+    }
   }
   return status;
 }
@@ -547,14 +559,18 @@ static HAL_StatusTypeDef I2Cx_WriteMultiple(uint8_t Addr, uint16_t Reg, uint16_t
   HAL_StatusTypeDef status = HAL_OK;
 
 RETRY:
-  status = HAL_I2C_Mem_Write(&hdiscovery_I2c, Addr, (uint16_t)Reg, MemAddress, Buffer, Length, 1000);
+  status = HAL_I2C_Mem_Write(&hdiscovery_I2c, Addr, (uint16_t)Reg, MemAddress, Buffer, Length, 100);
 
   /* Check the communication status */
   if(status != HAL_OK)
   {
-    /* Re-Initiaize the I2C Bus */
+    uint32_t err = hdiscovery_I2c.ErrorCode;
+    // Re-Initiaize the I2C Bus
     I2Cx_Error(Addr);
-    goto RETRY;
+    if (HAL_I2C_ERROR_TIMEOUT & err)
+    {
+      goto RETRY;
+    }
   }
   return status;
 }
