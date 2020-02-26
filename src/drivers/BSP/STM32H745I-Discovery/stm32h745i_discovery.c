@@ -474,8 +474,8 @@ static void I2Cx_Write(uint8_t Addr, uint8_t Reg, uint8_t Value)
 RETRY:
   status = HAL_I2C_Mem_Write(&hdiscovery_I2c, Addr, (uint16_t)Reg, I2C_MEMADD_SIZE_8BIT, &Value, 1, 100);
 
-  /* Check the communication status */
-  if(status != HAL_OK)
+  // Check the communication status. Do not call error handler if NACK is detected
+  if((status != HAL_OK) && (0 == (HAL_I2C_ERROR_NO_ERR_HANDLING & hdiscovery_I2c.ErrorCode)))
   {
     uint32_t err = hdiscovery_I2c.ErrorCode;
     // Re-Initiaize the I2C Bus
@@ -501,8 +501,8 @@ static uint8_t I2Cx_Read(uint8_t Addr, uint8_t Reg)
 RETRY:
   status = HAL_I2C_Mem_Read(&hdiscovery_I2c, Addr, Reg, I2C_MEMADD_SIZE_8BIT, &Value, 1, 1000);
 
-  /* Check the communication status */
-  if(status != HAL_OK)
+  // Check the communication status. Do not call error handler if NACK is detected
+  if((status != HAL_OK) && (0 == (HAL_I2C_ERROR_NO_ERR_HANDLING & hdiscovery_I2c.ErrorCode)))
   {
     uint32_t err = hdiscovery_I2c.ErrorCode;
     // Re-Initiaize the I2C Bus
@@ -531,8 +531,8 @@ static HAL_StatusTypeDef I2Cx_ReadMultiple(uint8_t Addr, uint16_t Reg, uint16_t 
 RETRY:
   status = HAL_I2C_Mem_Read(&hdiscovery_I2c, Addr, (uint16_t)Reg, MemAddress, Buffer, Length, 1000);
 
-  /* Check the communication status */
-  if(status != HAL_OK)
+  // Check the communication status. Do not call error handler if NACK is detected
+  if((status != HAL_OK) && (0 == (HAL_I2C_ERROR_NO_ERR_HANDLING & hdiscovery_I2c.ErrorCode)))
   {
     uint32_t err = hdiscovery_I2c.ErrorCode;
     // Re-Initiaize the I2C Bus
@@ -561,8 +561,8 @@ static HAL_StatusTypeDef I2Cx_WriteMultiple(uint8_t Addr, uint16_t Reg, uint16_t
 RETRY:
   status = HAL_I2C_Mem_Write(&hdiscovery_I2c, Addr, (uint16_t)Reg, MemAddress, Buffer, Length, 100);
 
-  /* Check the communication status */
-  if(status != HAL_OK)
+  // Check the communication status. Do not call error handler if NACK is detected
+  if((status != HAL_OK) && (0 == (HAL_I2C_ERROR_NO_ERR_HANDLING & hdiscovery_I2c.ErrorCode)))
   {
     uint32_t err = hdiscovery_I2c.ErrorCode;
     // Re-Initiaize the I2C Bus

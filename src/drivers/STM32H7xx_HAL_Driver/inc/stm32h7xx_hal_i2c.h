@@ -175,6 +175,10 @@ typedef enum
 #define HAL_I2C_ERROR_INVALID_CALLBACK  (0x00000100U)    /*!< Invalid Callback error */
 #endif /* USE_HAL_I2C_REGISTER_CALLBACKS */
 #define HAL_I2C_ERROR_INVALID_PARAM     (0x00000200U)    /*!< Invalid Parameters error  */
+
+// I2C error Flags that require no error handling that resets the I2C interface
+#define HAL_I2C_ERROR_NO_ERR_HANDLING (HAL_I2C_ERROR_INVALID_PARAM | HAL_I2C_ERROR_DMA_PARAM | HAL_I2C_ERROR_AF)
+
 /**
   * @}
   */
