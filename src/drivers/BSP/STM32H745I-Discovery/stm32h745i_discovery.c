@@ -597,7 +597,7 @@ static uint8_t wait_for_gpio_state_timeout(GPIO_TypeDef *port, uint16_t pin, GPI
 
 static void i2c_delay(void)
 {
-  for (uint32_t i = 0; i < 400; i++)
+  for (uint32_t i = 0; i < 2000; i++)
   {
     asm volatile ("nop");
   }
@@ -605,15 +605,15 @@ static void i2c_delay(void)
 
 /**
   * @brief  Manages error callback by re-initializing I2C.
-  * 
+  *
   * Recovery is based on a procedure from https://electronics.stackexchange.com/questions/267972/i2c-busy-flag-strange-behaviour
-  * 
+  *
   * @param  Addr: I2C Address
   * @retval None
   */
 static void I2Cx_Error(uint8_t Addr)
 {
-  GPIO_InitTypeDef GPIO_InitStructure;
+  GPIO_InitTypeDef GPIO_InitStructure = { 0 };
 
   // 1. Clear PE bit.
   CLEAR_BIT(hdiscovery_I2c.Instance->CR1, I2C_CR1_PE);
@@ -624,6 +624,7 @@ static void I2Cx_Error(uint8_t Addr)
   GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_OD;
   GPIO_InitStructure.Pull = GPIO_NOPULL;
   GPIO_InitStructure.Pin = DISCOVERY_I2Cx_SCL_PIN;
+  GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, &GPIO_InitStructure);
   GPIO_InitStructure.Pin = DISCOVERY_I2Cx_SDA_PIN;
   HAL_GPIO_Init(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, &GPIO_InitStructure);
