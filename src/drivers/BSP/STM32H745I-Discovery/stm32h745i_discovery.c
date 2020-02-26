@@ -595,6 +595,14 @@ static uint8_t wait_for_gpio_state_timeout(GPIO_TypeDef *port, uint16_t pin, GPI
     return ret;
 }
 
+static void i2c_delay(void)
+{
+  for (uint32_t i = 0; i < 400; i++)
+  {
+    asm volatile ("nop");
+  }
+}
+
 /**
   * @brief  Manages error callback by re-initializing I2C.
   * 
@@ -623,30 +631,35 @@ static void I2Cx_Error(uint8_t Addr)
   // 3. Check SCL and SDA High level in GPIOx_IDR.
   HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_SET);
   HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_SET);
+  i2c_delay();
 
   wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_SET, 10);
   wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_SET, 10);
 
   // 4. Configure the SDA I/O as General Purpose Output Open-Drain, Low level
   HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_RESET);
+  i2c_delay();
 
   // 5. Check SDA Low level in GPIOx_IDR.
   wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_RESET, 10);
 
   // 6. Configure the SCL I/O as General Purpose Output Open-Drain, Low level
   HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_RESET);
+  i2c_delay();
 
   // 7. Check SCL Low level in GPIOx_IDR.
   wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_RESET, 10);
 
   // 8. Configure the SCL I/O as General Purpose Output Open-Drain, High level
   HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_SET);
+  i2c_delay();
 
   // 9. Check SCL High level in GPIOx_IDR.
   wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_SET, 10);
 
   // 10. Configure the SDA I/O as General Purpose Output Open-Drain , High level (Write 1 to GPIOx_ODR).
   HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_SET);
+  i2c_delay();
 
   // 11. Check SDA High level in GPIOx_IDR.
   wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_SET, 10);
@@ -661,13 +674,11 @@ static void I2Cx_Error(uint8_t Addr)
 
   // 13. I2C reset on
   DISCOVERY_I2Cx_FORCE_RESET();
-  for (uint32_t i = 0; i < 40; i++)
-  {
-    asm volatile ("nop");
-  }
+  i2c_delay();
 
   // 14. I2C reset off
   DISCOVERY_I2Cx_RELEASE_RESET();
+  i2c_delay();
 
   // 15. Set PE bit.
   SET_BIT(hdiscovery_I2c.Instance->CR1, I2C_CR1_PE);
