@@ -28,26 +28,15 @@ const char *RTC_MonTxt[] =
 
 void Sleep(uint32_t nms)
 {
-    uint32_t ts = HAL_GetTick();
-    do
-    {
-        uart_rx_proc();
-        while (HAL_GetTick() == ts)
-        {
-            asm volatile ("nop");
-        }
-        ts = HAL_GetTick();
-    } while(nms--);
-#if 0 // disabled sleeping, it causes hanging. To be fixed later.
+    uart_rx_proc();
     uint32_t ts = CFG_GetParam(CFG_PARAM_LOWPWR_TIME);
     if (ts != 0)
     {
         if (autosleep_timer == 0 &&
                 !LCD_IsOff() )
         {
-            //TODO: fix it
-            //BSP_LCD_DisplayOff();
-            //LCD_TurnOff();
+            //BSP_LCD_DisplayOff(); // hangs?
+            LCD_TurnOff();
         }
     }
 
@@ -67,7 +56,6 @@ void Sleep(uint32_t nms)
     main_sleep_timer = nms;
     HAL_PWR_EnableSleepOnExit();
     HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
-#endif
 }
 
 static void SystemClock_Config(void);

@@ -374,6 +374,8 @@ void HAL_PWR_DisableWakeUpPin(uint32_t WakeUpPinx)
   *            @arg PWR_SLEEPENTRY_WFE: enter SLEEP mode with WFE instruction
   * @retval None
   */
+volatile uint32_t __fakeread;
+
 void HAL_PWR_EnterSLEEPMode(uint32_t Regulator, uint8_t SLEEPEntry)
 {
   /* Check the parameters */
@@ -382,16 +384,21 @@ void HAL_PWR_EnterSLEEPMode(uint32_t Regulator, uint8_t SLEEPEntry)
 
   /* Clear SLEEPDEEP bit of Cortex System Control Register */
   CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPDEEP_Msk));
+  __fakeread = SCB->SCR; // Peripheral read after write: see http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0321a/BIHICBGB.html
 
-  /* Select SLEEP mode entry */
+  /* Select SLEEP mode entry -------------------------------------------------*/
   if(SLEEPEntry == PWR_SLEEPENTRY_WFI)
   {
     /* Request Wait For Interrupt */
+    __DSB(); // See http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0321a/BIHICBGB.html
     __WFI();
   }
   else
   {
     /* Request Wait For Event */
+    __SEV();
+    __DSB();
+    __WFE();
     __WFE();
   }
 }

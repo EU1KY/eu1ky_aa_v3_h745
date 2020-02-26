@@ -17,7 +17,7 @@ static uint32_t wakeup_touch(void)
     if (LCD_IsOff())
     {
         LCD_TurnOn();
-        BSP_LCD_DisplayOn();
+        //BSP_LCD_DisplayOn();
         TS_StateTypeDef ts = { 0 };
         do
         {
