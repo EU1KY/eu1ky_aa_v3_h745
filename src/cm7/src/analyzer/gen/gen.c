@@ -85,15 +85,15 @@ void GEN_SetMeasurementFreq(uint32_t fhz)
         else
             gen.SetF0(fhz);
 
-        if ((fhz + IF) > CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ))
-            gen.SetLO((fhz + IF) / 3);
+        if ((fhz - IF) > CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ))
+            gen.SetLO((fhz - IF) / 3);
         else
-            gen.SetLO(fhz + IF);
+            gen.SetLO(fhz - IF);
     }
     else
     {
         gen.SetF0(fhz);
-        gen.SetLO(fhz + IF);
+        gen.SetLO(fhz - IF);
     }
 
     lastSetFreq = fhz;

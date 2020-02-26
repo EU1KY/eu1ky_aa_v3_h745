@@ -810,8 +810,12 @@ static void DrawRX()
 
     if (minRX < -1999.f)
         minRX = -1999.f;
+    else if (minRX > -2.f && minRX < -0.0f)
+        minRX = -2.f;
     if (maxRX > 1999.f)
         maxRX = 1999.f;
+    else if (maxRX > 0.0f && maxRX < 2.0f)
+        maxRX = 2.0f;
 
     int nticks = 8; //Max number of intermediate ticks of labels
     float range = nicenum(maxRX - minRX, 0);

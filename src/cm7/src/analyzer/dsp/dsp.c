@@ -265,7 +265,7 @@ REMEASURE:
 
         mag_v_buf[i] = crealf(res_v);
         mag_i_buf[i] = crealf(res_i);
-        pdif = cimagf(res_i) - cimagf(res_v);
+        pdif = cimagf(res_v) - cimagf(res_i);
         //Correct phase difference quadrant
         pdif = fmodf(pdif + M_PI, 2 * M_PI) - M_PI;
 
