@@ -471,7 +471,7 @@ static void I2Cx_Init(void)
 static void I2Cx_Write(uint8_t Addr, uint8_t Reg, uint8_t Value)
 {
   HAL_StatusTypeDef status = HAL_OK;
-
+RETRY:
   status = HAL_I2C_Mem_Write(&hdiscovery_I2c, Addr, (uint16_t)Reg, I2C_MEMADD_SIZE_8BIT, &Value, 1, 100);
 
   /* Check the communication status */
@@ -479,6 +479,7 @@ static void I2Cx_Write(uint8_t Addr, uint8_t Reg, uint8_t Value)
   {
     /* Execute user timeout callback */
     I2Cx_Error(Addr);
+    goto RETRY;
   }
 }
 
@@ -493,6 +494,7 @@ static uint8_t I2Cx_Read(uint8_t Addr, uint8_t Reg)
   HAL_StatusTypeDef status = HAL_OK;
   uint8_t Value = 0;
 
+RETRY:
   status = HAL_I2C_Mem_Read(&hdiscovery_I2c, Addr, Reg, I2C_MEMADD_SIZE_8BIT, &Value, 1, 1000);
 
   /* Check the communication status */
@@ -500,6 +502,7 @@ static uint8_t I2Cx_Read(uint8_t Addr, uint8_t Reg)
   {
     /* Execute user timeout callback */
     I2Cx_Error(Addr);
+    goto RETRY;
   }
   return Value;
 }
@@ -517,6 +520,7 @@ static HAL_StatusTypeDef I2Cx_ReadMultiple(uint8_t Addr, uint16_t Reg, uint16_t 
 {
   HAL_StatusTypeDef status = HAL_OK;
 
+RETRY:
   status = HAL_I2C_Mem_Read(&hdiscovery_I2c, Addr, (uint16_t)Reg, MemAddress, Buffer, Length, 1000);
 
   /* Check the communication status */
@@ -524,6 +528,7 @@ static HAL_StatusTypeDef I2Cx_ReadMultiple(uint8_t Addr, uint16_t Reg, uint16_t 
   {
     /* I2C error occurred */
     I2Cx_Error(Addr);
+    goto RETRY;
   }
   return status;
 }
@@ -541,6 +546,7 @@ static HAL_StatusTypeDef I2Cx_WriteMultiple(uint8_t Addr, uint16_t Reg, uint16_t
 {
   HAL_StatusTypeDef status = HAL_OK;
 
+RETRY:
   status = HAL_I2C_Mem_Write(&hdiscovery_I2c, Addr, (uint16_t)Reg, MemAddress, Buffer, Length, 1000);
 
   /* Check the communication status */
@@ -548,21 +554,109 @@ static HAL_StatusTypeDef I2Cx_WriteMultiple(uint8_t Addr, uint16_t Reg, uint16_t
   {
     /* Re-Initiaize the I2C Bus */
     I2Cx_Error(Addr);
+    goto RETRY;
   }
   return status;
 }
 
+static uint8_t wait_for_gpio_state_timeout(GPIO_TypeDef *port, uint16_t pin, GPIO_PinState state, uint32_t timeout)
+ {
+    uint32_t Tickstart = HAL_GetTick();
+    uint8_t ret = 1;
+    // Wait until flag is set
+    for( ; (state != HAL_GPIO_ReadPin(port, pin)) && (1 == ret); )
+    {
+        /* Check for the timeout */
+        if (timeout != HAL_MAX_DELAY)
+        {
+            if ((timeout == 0U) || ((HAL_GetTick() - Tickstart) > timeout))
+            {
+                ret = 0;
+            }
+        }
+        asm volatile ("nop");
+    }
+    return ret;
+}
+
 /**
   * @brief  Manages error callback by re-initializing I2C.
+  * 
+  * Recovery is based on a procedure from https://electronics.stackexchange.com/questions/267972/i2c-busy-flag-strange-behaviour
+  * 
   * @param  Addr: I2C Address
   * @retval None
   */
 static void I2Cx_Error(uint8_t Addr)
 {
-  /* De-initialize the I2C comunication bus */
+  GPIO_InitTypeDef GPIO_InitStructure;
+
+  // 1. Clear PE bit.
+  CLEAR_BIT(hdiscovery_I2c.Instance->CR1, I2C_CR1_PE);
+
+  // 2. Configure the SCL and SDA I/Os as General Purpose Output Open-Drain, High level (Write 1 to GPIOx_ODR).
   HAL_I2C_DeInit(&hdiscovery_I2c);
 
-  /* Re-Initialize the I2C communication bus */
+  GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStructure.Pull = GPIO_NOPULL;
+  GPIO_InitStructure.Pin = DISCOVERY_I2Cx_SCL_PIN;
+  HAL_GPIO_Init(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, &GPIO_InitStructure);
+  GPIO_InitStructure.Pin = DISCOVERY_I2Cx_SDA_PIN;
+  HAL_GPIO_Init(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, &GPIO_InitStructure);
+
+  // 3. Check SCL and SDA High level in GPIOx_IDR.
+  HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_SET);
+
+  wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_SET, 10);
+  wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_SET, 10);
+
+  // 4. Configure the SDA I/O as General Purpose Output Open-Drain, Low level
+  HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_RESET);
+
+  // 5. Check SDA Low level in GPIOx_IDR.
+  wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_RESET, 10);
+
+  // 6. Configure the SCL I/O as General Purpose Output Open-Drain, Low level
+  HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_RESET);
+
+  // 7. Check SCL Low level in GPIOx_IDR.
+  wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_RESET, 10);
+
+  // 8. Configure the SCL I/O as General Purpose Output Open-Drain, High level
+  HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_SET);
+
+  // 9. Check SCL High level in GPIOx_IDR.
+  wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SCL_PIN, GPIO_PIN_SET, 10);
+
+  // 10. Configure the SDA I/O as General Purpose Output Open-Drain , High level (Write 1 to GPIOx_ODR).
+  HAL_GPIO_WritePin(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_SET);
+
+  // 11. Check SDA High level in GPIOx_IDR.
+  wait_for_gpio_state_timeout(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, DISCOVERY_I2Cx_SDA_PIN, GPIO_PIN_SET, 10);
+
+  // 12. Configure the SCL and SDA I/Os as Alternate function Open-Drain.
+  GPIO_InitStructure.Mode = GPIO_MODE_AF_OD;
+  GPIO_InitStructure.Alternate = DISCOVERY_I2Cx_SCL_SDA_AF;
+  GPIO_InitStructure.Pin = DISCOVERY_I2Cx_SCL_PIN;
+  HAL_GPIO_Init(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, &GPIO_InitStructure);
+  GPIO_InitStructure.Pin = DISCOVERY_I2Cx_SDA_PIN;
+  HAL_GPIO_Init(DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT, &GPIO_InitStructure);
+
+  // 13. I2C reset on
+  DISCOVERY_I2Cx_FORCE_RESET();
+  for (uint32_t i = 0; i < 40; i++)
+  {
+    asm volatile ("nop");
+  }
+
+  // 14. I2C reset off
+  DISCOVERY_I2Cx_RELEASE_RESET();
+
+  // 15. Set PE bit.
+  SET_BIT(hdiscovery_I2c.Instance->CR1, I2C_CR1_PE);
+
+  // Re-Initialize the I2C communication bus
   I2Cx_Init();
 }
 

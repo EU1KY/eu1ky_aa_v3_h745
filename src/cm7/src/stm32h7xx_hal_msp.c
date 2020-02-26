@@ -161,7 +161,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
 
 void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c)
 {
-  DBGPRINT("\nI2C error recovery\n");
+  //DBGPRINT("\nI2C error recovery\n");
   HAL_Delay(2);
 }
 
