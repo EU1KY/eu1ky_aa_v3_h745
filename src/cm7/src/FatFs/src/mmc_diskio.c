@@ -254,7 +254,7 @@ DRESULT MMC_ioctl(BYTE lun, BYTE cmd, void *buff)
   {
   /* Make sure that no pending write process */
   case CTRL_SYNC :
-    //todo!!!
+    BSP_MMC_FlushCache();
     res = RES_OK;
     break;
 

@@ -105,7 +105,7 @@
 
     (+) You can read from MMC card in Interrupt mode by using function HAL_MMC_ReadBlocks_IT().
         This function allows the read of 512 bytes blocks.
-        You can choose either one block read operation or multiple block read operation 
+        You can choose either one block read operation or multiple block read operation
         by adjusting the "NumberOfBlocks" parameter.
         After this, you have to ensure that the transfer is done correctly. The check is done
         through HAL_MMC_GetCardState() function for MMC card state.
@@ -129,18 +129,18 @@
         by adjusting the "NumberOfBlocks" parameter.
         After this, you have to ensure that the transfer is done correctly. The check is done
         through HAL_MMC_GetCardState() function for MMC card state.
-        You could also check the DMA transfer process through the MMC Tx interrupt event.  
+        You could also check the DMA transfer process through the MMC Tx interrupt event.
 
     (+) You can write to MMC card in Interrupt mode by using function HAL_MMC_WriteBlocks_IT().
         This function allows the read of 512 bytes blocks.
-        You can choose either one block read operation or multiple block read operation 
+        You can choose either one block read operation or multiple block read operation
         by adjusting the "NumberOfBlocks" parameter.
         After this, you have to ensure that the transfer is done correctly. The check is done
         through HAL_MMC_GetCardState() function for MMC card state.
         You could also check the IT transfer process through the MMC Tx interrupt event.
 
   *** MMC card information ***
-  =========================== 
+  ===========================
   [..]
     (+) To get MMC card information, you can use the function HAL_MMC_GetCardInfo().
         It returns useful information about the MMC card such as block size, card type,
@@ -1445,6 +1445,16 @@ HAL_StatusTypeDef HAL_MMC_Trim(MMC_HandleTypeDef *hmmc, uint32_t BlockStartAdd, 
 }
 
 /**
+  * @brief  Force flush cache of the given MMC card.
+  * @param  hmmc: Pointer to MMC handle
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_MMC_FlushCache(MMC_HandleTypeDef *hmmc)
+{
+  return MMC_Write_ExtCSD_Byte(hmmc, 32, 1);
+}
+
+/**
   * @brief  This function handles MMC card interrupt request.
   * @param  hmmc: Pointer to MMC handle
   * @retval None
@@ -2312,7 +2322,7 @@ HAL_StatusTypeDef HAL_MMC_ConfigSpeedBusOperation(MMC_HandleTypeDef *hmmc, uint3
   {
     return HAL_ERROR;
   }
-  
+
   switch (SpeedMode)
   {
     case SDMMC_SPEED_MODE_AUTO:
@@ -2372,7 +2382,7 @@ HAL_StatusTypeDef HAL_MMC_ConfigSpeedBusOperation(MMC_HandleTypeDef *hmmc, uint3
       {
         /* High Speed DDR mode not allowed */
         hmmc->ErrorCode |= HAL_MMC_ERROR_UNSUPPORTED_FEATURE;
-        status = HAL_ERROR;		
+        status = HAL_ERROR;
       }
       break;
     }
@@ -2391,7 +2401,7 @@ HAL_StatusTypeDef HAL_MMC_ConfigSpeedBusOperation(MMC_HandleTypeDef *hmmc, uint3
       {
         /* High Speed mode not allowed */
         hmmc->ErrorCode |= HAL_MMC_ERROR_UNSUPPORTED_FEATURE;
-        status = HAL_ERROR;		
+        status = HAL_ERROR;
       }
       break;
     }
@@ -2988,7 +2998,7 @@ static uint32_t MMC_HighSpeed(MMC_HandleTypeDef *hmmc, FunctionalState state)
     /* Index : 185 - Value : 0 */
     errorstate = SDMMC_CmdSwitch(hmmc->Instance, 0x03B90000U);
   }
-  
+
   if (((hmmc->Instance->CLKCR & SDMMC_CLKCR_BUSSPEED) == 0U) && (state != DISABLE))
   {
     /* Index : 185 - Value : 1 */
@@ -3068,7 +3078,7 @@ static uint32_t MMC_DDR_Mode(MMC_HandleTypeDef *hmmc, FunctionalState state)
       errorstate = SDMMC_CmdSwitch(hmmc->Instance, 0x03B70600U);
     }
   }
-  
+
   if (((hmmc->Instance->CLKCR & SDMMC_CLKCR_DDR) == 0U) && (state != DISABLE))
   {
     if ((hmmc->Instance->CLKCR & SDMMC_CLKCR_WIDBUS_0) != 0U)

@@ -267,6 +267,22 @@ uint8_t BSP_MMC_Trim(uint32_t StartAddr, uint32_t EndAddr)
 }
 
 /**
+  * @brief  Flush MMC card cache.
+  * @retval MMC status
+  */
+uint8_t BSP_MMC_FlushCache(void)
+{
+  if (HAL_MMC_FlushCache(&uSdHandle))
+  {
+    return MMC_OK;
+  }
+  else
+  {
+    return MMC_ERROR;
+  }
+}
+
+/**
   * @brief  Initializes the MMC MSP.
   * @param  hmmc: MMC handle
   * @param  Params User parameters
