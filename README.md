@@ -10,8 +10,11 @@ The firmware can be built in both Windows and Linux.
 
 You'll need the following prerequisites to be installed:
 
-* [Python 3](https://python.org), in system path, including its Scripts subdirectory.
-* intelhex Python module (can be installed with command line 'pip install intelhex').
+* [Python](https://python.org), in system path, including its Scripts subdirectory. Linux systems
+  usually have the python installed by default (try executing 'python' in the command line).
+  No matter what python version is installed, both Python 2 and Python 3 are equally usable for
+  the purpose of building the firmware.
+* intelhex Python module (can be installed with command line 'python -m pip install intelhex --user').
 * [Git SCM](https://git-scm.com/).
 * (Windows only) [GNU make for Windows](https://github.com/mbuilov/gnumake-windows) Download appropriate prebuilt file, rename it to make.exe and put it somewhere in a system PATH.
 * (Linux only) build-essential package (e.g. in Ubuntu, install it with 'sudo apt-get install build-essential')

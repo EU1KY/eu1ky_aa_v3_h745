@@ -12,11 +12,11 @@ if __name__ == '__main__':
     except:
         try:
             import subprocess
-            subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'intelhex'])
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'intelhex', '--user'])
             from intelhex import IntelHex
         except:
             traceback.print_exc()
-            print("\n*** Please try manually with raised privileges: 'sudo pip install intelhex'\n")
+            print("\n*** Please try manually with raised privileges: 'sudo python -m pip install intelhex'\n")
             sys.exit(1)
 
     if len(sys.argv) >= 4:
