@@ -59,7 +59,7 @@ typedef enum
 #define OSL_LOW_FREQ_MARGIN     (200000000ul)
 #define OSL_SCAN_STEP_LOW       (100000ul) // OSL scan step for frequencies below and including OSL_LOW_FREQ_MARGIN
 #define OSL_SCAN_STEP_HIGH      (500000ul) // OSL scan step for frequencies above OSL_LOW_FREQ_MARGIN
-#define OSL_TABLES_IN_SDRAM     (0)
+#define OSL_TABLES_IN_SDRAM     (1)
 
 #define OSL_ENTRIES_LOW  ((OSL_LOW_FREQ_MARGIN - (BAND_FMIN)) / OSL_SCAN_STEP_LOW + 1)
 #define OSL_ENTRIES_HIGH ((MAX_BAND_FREQ - OSL_LOW_FREQ_MARGIN) / OSL_SCAN_STEP_HIGH)
@@ -86,11 +86,17 @@ static int32_t OSL_LoadFromFile(void);
 static uint32_t OSL_NumValidEntries(void)
 {
     uint32_t fmax = CFG_GetParam(CFG_PARAM_BAND_FMAX);
-    uint32_t num_valid_entries = ((fmax - (BAND_FMIN)) / OSL_SCAN_STEP_LOW + 1);
-    if (fmax > OSL_ENTRIES_LOW)
+    uint32_t num_valid_entries;
+
+    if (fmax > OSL_LOW_FREQ_MARGIN)
     {
-        num_valid_entries += ((fmax - (OSL_LOW_FREQ_MARGIN)) / OSL_SCAN_STEP_HIGH);
+        num_valid_entries = OSL_ENTRIES_LOW + ((fmax - OSL_LOW_FREQ_MARGIN) / OSL_SCAN_STEP_HIGH);
     }
+    else
+    {
+        num_valid_entries = ((fmax - (BAND_FMIN)) / OSL_SCAN_STEP_LOW + 1);
+    }
+
     return num_valid_entries;
 }
 
@@ -198,12 +204,12 @@ void OSL_CorrectErr(uint32_t fhz, float *magdif, float *phdif)
     if (-1 == idx)
         return;
 
-    uint32_t magnutude_correction = 0.0f;
-    uint32_t phase_correction = 0.0f;
+    float magnitude_correction = 1.0f;
+    float phase_correction = 0.0f;
 
     if (fhz == OSL_GetCalFreqByIdx(idx))
     {
-        magnutude_correction = osl_errCorr[idx].mag0;
+        magnitude_correction = osl_errCorr[idx].mag0;
         phase_correction = osl_errCorr[idx].phase0;
     }
     else
@@ -211,11 +217,11 @@ void OSL_CorrectErr(uint32_t fhz, float *magdif, float *phdif)
         uint32_t f1 = OSL_GetCalFreqByIdx(idx);
         uint32_t f2 = OSL_GetCalFreqByIdx(idx + 1);
         float proportion = (float)(fhz - f1) / (float)(f2 - f1);
-        magnutude_correction = osl_errCorr[idx].mag0 + proportion * (osl_errCorr[idx + 1].mag0 - osl_errCorr[idx].mag0);
+        magnitude_correction = osl_errCorr[idx].mag0 + proportion * (osl_errCorr[idx + 1].mag0 - osl_errCorr[idx].mag0);
         phase_correction = osl_errCorr[idx].phase0 + proportion * (osl_errCorr[idx + 1].phase0 - osl_errCorr[idx].phase0);
     }
 
-    *magdif *= magnutude_correction;
+    *magdif *= magnitude_correction;
     *phdif -= phase_correction;
 }
 
