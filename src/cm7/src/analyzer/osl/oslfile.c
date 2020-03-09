@@ -56,11 +56,15 @@ typedef enum
     OSL_FILE_SCANNED_ALL = OSL_FILE_SCANNED_SHORT | OSL_FILE_SCANNED_LOAD | OSL_FILE_SCANNED_OPEN
 } OSL_FILE_STATUS;
 
-#define OSL_SCAN_STEP           (100000)
+#define OSL_LOW_FREQ_MARGIN     (200000000ul)
+#define OSL_SCAN_STEP_LOW       (100000ul) // OSL scan step for frequencies below and including OSL_LOW_FREQ_MARGIN
+#define OSL_SCAN_STEP_HIGH      (500000ul) // OSL scan step for frequencies above OSL_LOW_FREQ_MARGIN
 #define OSL_TABLES_IN_SDRAM     (0)
 
-#define OSL_ENTRIES ((MAX_BAND_FREQ - (BAND_FMIN)) / OSL_SCAN_STEP + 1)
-#define OSL_NUM_VALID_ENTRIES ((CFG_GetParam(CFG_PARAM_BAND_FMAX) - (BAND_FMIN)) / OSL_SCAN_STEP + 1)
+#define OSL_ENTRIES_LOW  ((OSL_LOW_FREQ_MARGIN - (BAND_FMIN)) / OSL_SCAN_STEP_LOW + 1)
+#define OSL_ENTRIES_HIGH ((MAX_BAND_FREQ - OSL_LOW_FREQ_MARGIN) / OSL_SCAN_STEP_HIGH)
+#define OSL_ENTRIES (OSL_ENTRIES_LOW + OSL_ENTRIES_HIGH)
+#define OSL_NUM_VALID_ENTRIES OSL_NumValidEntries()
 
 #if (1 == OSL_TABLES_IN_SDRAM)
 #define MEMATTR_OSL __attribute__((section (".user_sdram")))
@@ -79,25 +83,45 @@ static const COMPLEX cmminus1 = -1.0f + 0.0fi;
 
 static int32_t OSL_LoadFromFile(void);
 
+static uint32_t OSL_NumValidEntries(void)
+{
+    uint32_t fmax = CFG_GetParam(CFG_PARAM_BAND_FMAX);
+    uint32_t num_valid_entries = ((fmax - (BAND_FMIN)) / OSL_SCAN_STEP_LOW + 1);
+    if (fmax > OSL_ENTRIES_LOW)
+    {
+        num_valid_entries += ((fmax - (OSL_LOW_FREQ_MARGIN)) / OSL_SCAN_STEP_HIGH);
+    }
+    return num_valid_entries;
+}
+
 static uint32_t OSL_GetCalFreqByIdx(int32_t idx)
 {
     if (idx < 0 || idx >= OSL_NUM_VALID_ENTRIES)
         return 0;
-    return BAND_FMIN + idx * OSL_SCAN_STEP;
+    if (idx < OSL_ENTRIES_LOW)
+    {
+        return BAND_FMIN + idx * OSL_SCAN_STEP_LOW;
+    }
+    return OSL_LOW_FREQ_MARGIN + (idx - OSL_ENTRIES_LOW + 1) * OSL_SCAN_STEP_HIGH;
 }
 
-//Fix by OM0IM: now returns floor instead of round in order to linearly interpolate
-//HW calibration in OSL_CorrectErr(). This improves precision on low frequencies.
 static int GetIndexForFreq(uint32_t fhz)
 {
     int idx = -1;
     if (fhz < BAND_FMIN)
         return idx;
-    if (fhz <= CFG_GetParam(CFG_PARAM_BAND_FMAX))
+    uint32_t fmax = CFG_GetParam(CFG_PARAM_BAND_FMAX);
+
+    if (fhz <= fmax)
     {
-        //idx = (int)roundf((float)fhz / OSL_SCAN_STEP) - BAND_FMIN / OSL_SCAN_STEP;
-        idx = (int)(fhz / OSL_SCAN_STEP) - BAND_FMIN / OSL_SCAN_STEP;
-        return idx;
+        if (fhz <= OSL_LOW_FREQ_MARGIN)
+        {
+            idx = (int)((fhz - BAND_FMIN) / OSL_SCAN_STEP_LOW);
+        }
+        else
+        {
+            idx = OSL_ENTRIES_LOW - 1 + (int)((fhz - OSL_LOW_FREQ_MARGIN) / OSL_SCAN_STEP_HIGH);
+        }
     }
     return idx;
 }
@@ -139,7 +163,7 @@ void OSL_ScanErrCorr(void(*progresscb)(uint32_t))
         DSP_Measure(freq, 0, 0, CFG_GetParam(CFG_PARAM_OSL_NSCANS));
         if (DSP_MeasuredMagImv() < 1. || DSP_MeasuredMagVmv() < 1.)
         {
-            CRASH("No signal");
+            CRASHF("No signal at freq %lu", freq);
         }
         osl_errCorr[i].mag0 = 1.0f / DSP_MeasuredDiff();
         osl_errCorr[i].phase0 = DSP_MeasuredPhase();
@@ -166,7 +190,6 @@ void OSL_ScanErrCorr(void(*progresscb)(uint32_t))
     osl_err_loaded = 1;
 }
 
-//Linear interpolation added by OM0IM
 void OSL_CorrectErr(uint32_t fhz, float *magdif, float *phdif)
 {
     if (!osl_err_loaded)
@@ -174,26 +197,26 @@ void OSL_CorrectErr(uint32_t fhz, float *magdif, float *phdif)
     int idx = GetIndexForFreq(fhz);
     if (-1 == idx)
         return;
-    float correct;
-    if (fhz > CFG_GetParam(CFG_PARAM_BAND_FMAX))
-        correct = 0.0f;
-    else
-    {
-        correct = osl_errCorr[idx + 1].mag0;
-        correct = correct - osl_errCorr[idx].mag0;
-    }
-    correct = osl_errCorr[idx].mag0 + (correct * (((float)fhz / OSL_SCAN_STEP) - (fhz / OSL_SCAN_STEP)));
-    *magdif *= correct;
 
-    if (fhz > CFG_GetParam(CFG_PARAM_BAND_FMAX))
-        correct = 0.0f;
-    else
+    uint32_t magnutude_correction = 0.0f;
+    uint32_t phase_correction = 0.0f;
+
+    if (fhz == OSL_GetCalFreqByIdx(idx))
     {
-        correct = osl_errCorr[idx + 1].phase0;
-        correct = correct - osl_errCorr[idx].phase0;
+        magnutude_correction = osl_errCorr[idx].mag0;
+        phase_correction = osl_errCorr[idx].phase0;
     }
-    correct = osl_errCorr[idx].phase0 + (correct * (((float)fhz / OSL_SCAN_STEP) - (fhz / OSL_SCAN_STEP)));
-    *phdif -= correct;
+    else
+    { // Interpolate
+        uint32_t f1 = OSL_GetCalFreqByIdx(idx);
+        uint32_t f2 = OSL_GetCalFreqByIdx(idx + 1);
+        float proportion = (float)(fhz - f1) / (float)(f2 - f1);
+        magnutude_correction = osl_errCorr[idx].mag0 + proportion * (osl_errCorr[idx + 1].mag0 - osl_errCorr[idx].mag0);
+        phase_correction = osl_errCorr[idx].phase0 + proportion * (osl_errCorr[idx + 1].phase0 - osl_errCorr[idx].phase0);
+    }
+
+    *magdif *= magnutude_correction;
+    *phdif -= phase_correction;
 }
 
 // Function to calculate determinant of 3x3 matrix
@@ -528,13 +551,15 @@ static float complex OSL_CorrectG(uint32_t fhz, float complex gMeasured)
 
     int i;
     S_OSLDATA oslData;
-    i = (fhz - BAND_FMIN) / OSL_SCAN_STEP; //Nearest lower OSL file record index
-    if (0 == (fhz % OSL_SCAN_STEP)) //We already have exact value for this frequency
+
+    i = GetIndexForFreq(fhz); //Nearest lower OSL file record index
+
+    if (fhz == OSL_GetCalFreqByIdx(i)) //We already have exact value for this frequency
         oslData = osl_data[i];
     else if (i == 0)
     {//Corner case. Linearly interpolate two OSL factors for two nearby records
      //(there is no third point for this interval)
-        float prop = ((float)(fhz - BAND_FMIN)) / (float)(OSL_SCAN_STEP); //proportion
+        float prop = ((float)(fhz - BAND_FMIN)) / (float)(OSL_SCAN_STEP_LOW); //proportion
         oslData.e00 = (osl_data[1].e00 - osl_data[0].e00) * prop + osl_data[0].e00;
         oslData.e11 = (osl_data[1].e11 - osl_data[0].e11) * prop + osl_data[0].e11;
         oslData.de = (osl_data[1].de - osl_data[0].de) * prop + osl_data[0].de;
@@ -542,9 +567,9 @@ static float complex OSL_CorrectG(uint32_t fhz, float complex gMeasured)
     else
     {//We have three OSL points near fhz, thus using parabolic interpolation
         float f1, f2, f3;
-        f1 = (i - 1) * (float)OSL_SCAN_STEP + (float)(BAND_FMIN);
-        f2 = i * (float)OSL_SCAN_STEP + (float)(BAND_FMIN);
-        f3 = (i + 1) * (float)OSL_SCAN_STEP + (float)(BAND_FMIN);
+        f1 = OSL_GetCalFreqByIdx(i - 1);
+        f2 = OSL_GetCalFreqByIdx(i);
+        f3 = OSL_GetCalFreqByIdx(i + 1);
 
         oslData.e00 = OSL_ParabolicInterpolation(osl_data[i-1].e00, osl_data[i].e00, osl_data[i+1].e00,
                                              f1, f2, f3, (float)(fhz));
@@ -552,10 +577,9 @@ static float complex OSL_CorrectG(uint32_t fhz, float complex gMeasured)
                                              f1, f2, f3, (float)(fhz));
         oslData.de = OSL_ParabolicInterpolation(osl_data[i-1].de, osl_data[i].de, osl_data[i+1].de,
                                              f1, f2, f3, (float)(fhz));
-
     }
-    //At this point oslData contains correction structure for given frequency fhz
 
+    //At this point oslData contains correction structure for given frequency fhz
     COMPLEX gResult = gMeasured * oslData.e11 - oslData.de; //Denominator
     gResult = (gMeasured - oslData.e00) / _cnonz(gResult);
     return gResult;

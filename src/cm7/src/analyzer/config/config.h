@@ -6,7 +6,7 @@
 #define AAVERSION "3.1d" //Must be 4 characters
 
 #define BAND_FMIN 500000ul    //BAND_FMIN must be multiple 100000
-#define MAX_BAND_FREQ  720000000ul
+#define MAX_BAND_FREQ  1028000000ul // Si5340A-D-GM max output freq
 
 #if (BAND_FMIN % 100000) != 0
     #error "Incorrect band limit settings"
