@@ -100,7 +100,7 @@ void LCD_TurnOn(void)
 
 void LCD_TurnOff(void)
 {
-    BSP_LCD_SetBrightness(0);
+    BSP_LCD_SetBrightness(5);
     _lcd_is_on = 0;
 }
 
