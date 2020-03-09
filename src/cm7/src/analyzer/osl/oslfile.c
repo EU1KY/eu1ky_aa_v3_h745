@@ -59,7 +59,7 @@ typedef enum
 #define OSL_LOW_FREQ_MARGIN     (200000000ul)
 #define OSL_SCAN_STEP_LOW       (100000ul) // OSL scan step for frequencies below and including OSL_LOW_FREQ_MARGIN
 #define OSL_SCAN_STEP_HIGH      (500000ul) // OSL scan step for frequencies above OSL_LOW_FREQ_MARGIN
-#define OSL_TABLES_IN_SDRAM     (1)
+#define OSL_TABLES_IN_SDRAM     (0)
 
 #define OSL_ENTRIES_LOW  ((OSL_LOW_FREQ_MARGIN - (BAND_FMIN)) / OSL_SCAN_STEP_LOW + 1)
 #define OSL_ENTRIES_HIGH ((MAX_BAND_FREQ - OSL_LOW_FREQ_MARGIN) / OSL_SCAN_STEP_HIGH)
