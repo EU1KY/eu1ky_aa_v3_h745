@@ -6,6 +6,7 @@
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
 #include <complex.h>
@@ -536,4 +537,151 @@ MEASUREMENT_REDRAW:
         }
         Sleep(50);
     }
+}
+
+static bool Z0_IsLossy(float complex rx)
+{
+    float complex gamma;
+    gamma = OSL_GFromZ(rx, CFG_GetParam(CFG_PARAM_R0));
+    if (cabsf(gamma) < 0.7f)
+    {
+        FONT_Write(FONT_FRANBIG, LCD_RED, LCD_BLACK, 0, 100, "Load is not a line, too lossy");
+        while(!TOUCH_IsPressed())
+        {
+            Sleep(50);
+        }
+        return true;
+    }
+    return false;
+}
+
+static bool Z0_FLimit(uint32_t freq)
+{
+    if ((freq > 150000000u) || (freq < BAND_FMIN))
+    {
+        FONT_Write(FONT_FRANBIG, LCD_RED, LCD_BLACK, 0, 100, "Frequency limit, line is too short?");
+        while(!TOUCH_IsPressed())
+        {
+            Sleep(50);
+        }
+        return true;
+    }
+    return false;
+}
+
+void MEASUREMENT_Z0_Proc(void)
+{
+    rqExit = 0;
+
+    BSP_LCD_SelectLayer(0);
+    LCD_FillAll(LCD_BLACK);
+    BSP_LCD_SelectLayer(1);
+    LCD_FillAll(LCD_BLACK);
+    LCD_ShowActiveLayerOnly();
+
+    FONT_Write(FONT_FRANBIG, LCD_WHITE, LCD_BLACK, 120, 60, "Finding Z0 of open line");
+
+    while(TOUCH_IsPressed())
+    {
+        Sleep(50);
+    }
+
+    uint32_t freq = 2 * BAND_FMIN;
+    float complex rx;
+
+    // Initial check
+    DSP_Measure(freq, 1, 1, CFG_GetParam(CFG_PARAM_MEAS_NSCANS));
+    rx = DSP_MeasuredZ();
+    if (Z0_IsLossy(rx))
+        goto EXIT;
+
+    if (cimagf(rx) > 0.f)
+    {
+        FONT_Write(FONT_FRANBIG, LCD_RED, LCD_BLACK, 0, 100, "Load is not an open line");
+        while(!TOUCH_IsPressed())
+        {
+            Sleep(50);
+        }
+        goto EXIT;
+    }
+
+    // Find where X becomes > 0, step 500 kHz
+    while (true)
+    {
+        if (Z0_FLimit(freq))
+            goto EXIT;
+        DSP_Measure(freq, 1, 1, CFG_GetParam(CFG_PARAM_MEAS_NSCANS));
+        rx = DSP_MeasuredZ();
+        if (rqExit || Z0_IsLossy(rx))
+            goto EXIT;
+        if (cimagf(rx) > 0.f)
+            break;
+        freq += 500000u;
+    }
+
+    freq -= 100000u;
+    // Find where X becomes < 0, step 100 kHz
+    while (true)
+    {
+        if (Z0_FLimit(freq))
+            goto EXIT;
+        DSP_Measure(freq, 1, 1, CFG_GetParam(CFG_PARAM_MEAS_NSCANS));
+        rx = DSP_MeasuredZ();
+        if (rqExit || Z0_IsLossy(rx))
+            goto EXIT;
+        if (cimagf(rx) < 0.f)
+            break;
+        freq -= 100000u;
+    }
+
+    freq += 10000u;
+    // Find where X becomes > 0, step 10 kHz
+    while (true)
+    {
+        if (Z0_FLimit(freq))
+            goto EXIT;
+        DSP_Measure(freq, 1, 1, CFG_GetParam(CFG_PARAM_MEAS_NSCANS));
+        rx = DSP_MeasuredZ();
+        if (rqExit || Z0_IsLossy(rx))
+            goto EXIT;
+        if (cimagf(rx) > 0.f)
+            break;
+        freq += 10000u;
+    }
+
+    freq -= 1000u;
+    // Find where X becomes < 0, step 1 kHz
+    while (true)
+    {
+        if (Z0_FLimit(freq))
+            goto EXIT;
+        DSP_Measure(freq, 1, 1, CFG_GetParam(CFG_PARAM_MEAS_NSCANS));
+        rx = DSP_MeasuredZ();
+        if (rqExit || Z0_IsLossy(rx))
+            goto EXIT;
+        if (cimagf(rx) < 0.f)
+            break;
+        freq -= 1000u;
+    }
+
+    // -X measured at half the frequency corresponding to line length lambda/4 - is actually the line Z0
+    DSP_Measure(freq / 2, 1, 1, CFG_GetParam(CFG_PARAM_MEAS_NSCANS));
+    rx = DSP_MeasuredZ();
+
+    FONT_Print(FONT_FRANBIG, LCD_GREEN, LCD_BLACK, 0, 100, "Measured Z0: %.1f", -cimagf(rx));
+    FONT_Print(FONT_FRANBIG, LCD_GREEN, LCD_BLACK, 0, 140, "L/4 freq %u kHz", freq / 1000);
+    if (Z0_IsLossy(rx))
+    {
+        FONT_Print(FONT_FRANBIG, LCD_YELLOW, LCD_BLACK, 0, 180, "Line is lossy, Q = %.1f", cimagf(rx)/crealf(rx));
+    }
+    Sleep(500);
+
+    while (!TOUCH_IsPressed())
+    {
+        Sleep(50);
+    }
+
+EXIT:
+    GEN_SetMeasurementFreq(0);
+    while(TOUCH_IsPressed());
 }
