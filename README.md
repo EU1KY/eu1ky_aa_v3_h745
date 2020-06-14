@@ -6,7 +6,9 @@ This is a port of [eu1ky_aa_v3](https://github.com/EU1KY/eu1ky_aa_v3) for STM32H
 
 ### Prebuilt binary FW
 
-You can download prebuilt firmware binary here: [fw_image.zip](https://github.com/EU1KY/eu1ky_aa_v3_h745/files/4776154/fw_image.zip)
+You can download prebuilt firmware binary here: [fw_image.zip](https://github.com/EU1KY/eu1ky_aa_v3_h745/files/4776154/fw_image.zip).
+
+Unpack the binary file from the archive, and drag-and-drop it to a virtual drive that appears when you connect the board to PC with USB cable.
 
 ### Prerequisites
 
