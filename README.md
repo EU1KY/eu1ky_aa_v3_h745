@@ -4,6 +4,10 @@ This is a port of [eu1ky_aa_v3](https://github.com/EU1KY/eu1ky_aa_v3) for STM32H
 
 ## Getting Started
 
+### Prebuilt binary FW
+
+You can download prebuilt firmware binary here: [fw_image.zip](https://github.com/EU1KY/eu1ky_aa_v3_h745/files/4776154/fw_image.zip)
+
 ### Prerequisites
 
 The firmware can be built in both Windows and Linux.
