@@ -313,7 +313,7 @@ static bool _nanovna_cmd_info(uint32_t argc, char* const argv[])
     printf("Core Variant: Cortex-M7\r\n");
     printf("Port Info:    none\r\n");
     printf("Platform:     STM32H745XIH\r\n");
-    printf("Board:        NanoVNA\r\n");
+    printf("Board:        NanoVNA-H\r\n");
     printf("Build time:   %s%s%s\r\n",  __DATE__, " - ", __TIME__);
     return false;
 }
@@ -372,3 +372,11 @@ static bool _nanovna_cmd_frequencies(uint32_t argc, char* const argv[])
     return false;
 }
 SHELL_CMD_PROTO(frequencies, "list frequencies", _nanovna_cmd_frequencies, SHELL_PROT_GROUP_NANOVNA);
+
+static bool _nanovna_cmd_version(uint32_t argc, char* const argv[])
+{
+    (void)argc; (void)argv;
+    printf("0.1.0-1-1-00000000\r\n"); //version determines NanoVNA Saver features used.
+    return false;
+}
+SHELL_CMD(version, "", _nanovna_cmd_version);
