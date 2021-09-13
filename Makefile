@@ -279,7 +279,7 @@ gen:
 
 # ----------------------------------------------------------------------
 $(BINFILE): $(BINDIR)/cm4/CM4.hex $(BINDIR)/cm7/CM7.hex
-	@py $(BINSCRIPT) $(BINFILE) $^
+	@python $(BINSCRIPT) $(BINFILE) $^
 
 $(BINDIR)/cm7/CM7.hex : $(BINDIR)/cm7/CM7.elf
 	@$(OBJCOPY) -O ihex $< $@
