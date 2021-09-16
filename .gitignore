@@ -4,3 +4,4 @@ Thumbs.db
 stm32gdb.lnk
 h745.elay
 *build_log.html
+svd/*
