@@ -5,6 +5,35 @@
     "version": "0.2.0",
     "configurations": [
 
+
+        // Using Cortex-Debug extension to connect to ST-Link GDB server and ST-Link Programmer (both from STM32CubeIDE_1.7.0\STM32CubeIDE\plugins)
+        // see https://github.com/Marus/cortex-debug/issues/354 for config example
+        {
+            "name": "STLink launch Debug",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/out/Debug/bin/cm7/CM7.elf",
+            "servertype": "stlink",
+            "serverpath": "${workspaceFolder}/../STLink_GDB_Server/ST-LINK_gdbserver.exe",
+            "stm32cubeprogrammer": "${workspaceFolder}/../STLink_CubeProgrammer/tools/bin",
+            "gdbTarget": "localhost:3333",
+            "device": "STM32H745",
+            "svdFile": "${workspaceFolder}/svd/STM32H745_CM7.svd"
+        },
+        {
+            "name": "STLink attach Debug",
+            "type": "cortex-debug",
+            "request": "attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/out/Debug/bin/cm7/CM7.elf",
+            "servertype": "stlink",
+            "serverpath": "${workspaceFolder}/../STLink_GDB_Server/ST-LINK_gdbserver.exe",
+            "stm32cubeprogrammer": "${workspaceFolder}/../STLink_CubeProgrammer/tools/bin",
+            "gdbTarget": "localhost:3333",
+            "device": "STM32H745",
+            "svdFile": "${workspaceFolder}/svd/STM32H745_CM7.svd"
+        },
         // Using Native Debug extension to connect to EBLink
         // In Windows: set env var HOME = %USERPROFILE% in order to make arm-none-eabi-gdb happy with caching
         {

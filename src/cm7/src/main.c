@@ -48,7 +48,11 @@ void Sleep(uint32_t nms)
         HAL_Delay(1);
         return;
     }
-
+#if defined(DEBUG)
+    // Prevent sleep in debug build
+    main_sleep_timer = nms;
+    while (main_sleep_timer);
+#else
     // Enter sleep mode. The device will wake up on interrupts, and go sleep again
     // after interrupt routine exit. The SysTick_Handler interrupt routine will
     // leave device running when the main_sleep_timer downcount reaches zero,
@@ -63,6 +67,7 @@ void Sleep(uint32_t nms)
     {
         __WFI(); // Sleep until HAL_PWR_DisableSleepOnExit() will be called in tick interrupt
     }
+#endif // DEBUG
 }
 
 static void SystemClock_Config(void);

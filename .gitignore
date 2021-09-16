@@ -5,3 +5,5 @@ stm32gdb.lnk
 h745.elay
 *build_log.html
 svd/*
+.vscode/.cortex-debug.peripherals.state.json
+.vscode/.cortex-debug.registers.state.json
