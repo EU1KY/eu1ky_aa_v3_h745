@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <EmBitz_project_file>
-	<EmBitzVersion release="1.11" revision="0" />
-	<FileVersion major="1" minor="0" />
+	<EmBitzVersion release="2.00" revision="0" />
+	<FileVersion major="2" minor="0" />
 	<Project>
 		<Option title="h745" />
 		<Option makefile_is_custom="1" />
@@ -1769,57 +1769,23 @@
 		<Extensions>
 			<code_completion />
 			<debugger>
-				<target_debugging_settings target="debug" active_interface="EBlink">
-					<debug_interface interface_id="EBlink" ip_address="localhost" ip_port="2331" path="${EMBITZ}\share\EBlink" executable="EBlink.exe" description="..\STM32Cube_FW_H7_V1.5.0\svd\STM32H7x5_CM7.svd" dont_start_server="false" backoff_time="100" options="16" reg_filter="15" active_family="STMicroelectronics" gdb_before_conn="" gdb_after_conn="">
-						<family_options family_id="STMicroelectronics">
-							<option opt_id="ID_DEV_ADDR" opt_value="" />
-							<option opt_id="ID_DEV_SPEED" opt_value="4000" />
-							<option opt_id="ID_JTAG_SWD" opt_value="swd" />
-							<option opt_id="ID_RESET_TYPE" opt_value="System" />
-							<option opt_id="ID_DEVICE_SCRIPT_LIST" opt_value="stm32-auto" />
-							<option opt_id="ID_VERBOSE_LEVEL" opt_value="" />
-							<option opt_id="ID_VEC_TABLE" opt_value="1" />
-							<option opt_id="ID_VECTOR_START" opt_value="0x08000000" />
-							<option opt_id="ID_RAM_EXEC" opt_value="0" />
-							<option opt_id="ID_LOAD_PROGRAM" opt_value="1" />
-							<option opt_id="ID_HOTPLUG_CONNECT" opt_value="0" />
-							<option opt_id="ID_NO_FLASH_CACHE" opt_value="0" />
-							<option opt_id="ID_NO_GUI_MSGBOX" opt_value="0" />
-							<option opt_id="ID_SHUTDOWN_AFTER_DISCONNECT" opt_value="1" />
-							<option opt_id="ID_EBLINK_CMD_LINE" opt_value="" />
-							<option opt_id="ID_CMD_RESET" opt_value="" />
-							<option opt_id="ID_BEFORE_CONNECT" opt_value="" />
-							<option opt_id="ID_AFTER_CONNECT" opt_value="" />
-						</family_options>
-					</debug_interface>
+				<target_debugging_settings target="debug">
+					<debug_interface description="..\STM32Cube_FW_H7_V1.5.0\svd\STM32H7x5_CM7.svd" options="10" reg_filter="15" probe="STlink" device="auto" speed="" bus_address="" serial="" defines="" scripts="" flash_size="" ram_size="" vcc_voltage="" verbose="4" unwind="2" rstType="0" use_jtag="false" disable_cache="false" enable_semi="false" close_eblink="false" gdb_reset="" gdb_reset_remote="reset;" gdb_before_conn="" gdb_after_conn="" use_remote="false" ip_address="localhost" ip_port="2331" path="${EMBITZ}\share\EBlink" executable="EBlink.exe" start_server="false" arguments="" flash_verify="false" flash_run="false" />
 				</target_debugging_settings>
-				<target_debugging_settings target="release" active_interface="EBlink">
-					<debug_interface interface_id="EBlink" ip_address="localhost" ip_port="2331" path="${EMBITZ}\share\EBlink" executable="EBlink.exe" description="..\STM32Cube_FW_H7_V1.5.0\svd\STM32H7x5_CM7.svd" dont_start_server="false" backoff_time="100" options="16" reg_filter="15" active_family="STMicroelectronics" gdb_before_conn="" gdb_after_conn="">
-						<family_options family_id="STMicroelectronics">
-							<option opt_id="ID_DEV_ADDR" opt_value="" />
-							<option opt_id="ID_DEV_SPEED" opt_value="4000" />
-							<option opt_id="ID_JTAG_SWD" opt_value="swd" />
-							<option opt_id="ID_RESET_TYPE" opt_value="System" />
-							<option opt_id="ID_DEVICE_SCRIPT_LIST" opt_value="stm32-auto" />
-							<option opt_id="ID_VERBOSE_LEVEL" opt_value="" />
-							<option opt_id="ID_VEC_TABLE" opt_value="1" />
-							<option opt_id="ID_VECTOR_START" opt_value="0x08000000" />
-							<option opt_id="ID_RAM_EXEC" opt_value="0" />
-							<option opt_id="ID_LOAD_PROGRAM" opt_value="1" />
-							<option opt_id="ID_HOTPLUG_CONNECT" opt_value="0" />
-							<option opt_id="ID_SEMIHOST_CHECK" opt_value="0" />
-							<option opt_id="ID_NO_FLASH_CACHE" opt_value="0" />
-							<option opt_id="ID_NO_GUI_MSGBOX" opt_value="0" />
-							<option opt_id="ID_SHUTDOWN_AFTER_DISCONNECT" opt_value="1" />
-							<option opt_id="ID_EBLINK_CMD_LINE" opt_value="" />
-							<option opt_id="ID_CMD_RESET" opt_value="" />
-							<option opt_id="ID_BEFORE_CONNECT" opt_value="" />
-							<option opt_id="ID_AFTER_CONNECT" opt_value="" />
-						</family_options>
-					</debug_interface>
+				<target_debugging_settings target="release">
+					<debug_interface description="..\STM32Cube_FW_H7_V1.5.0\svd\STM32H7x5_CM7.svd" options="16" reg_filter="15" probe="" device="" speed="" bus_address="" serial="" defines="" scripts="" flash_size="" ram_size="" vcc_voltage="" verbose="32" unwind="44073968" rstType="16842752" use_jtag="false" disable_cache="false" enable_semi="false" close_eblink="false" gdb_reset="" gdb_reset_remote="reset" gdb_before_conn="" gdb_after_conn="" use_remote="false" ip_address="localhost" ip_port="2331" path="${EMBITZ}\share\EBlink" executable="EBlink.exe" start_server="false" arguments="" flash_verify="false" flash_run="false" />
 				</target_debugging_settings>
 			</debugger>
 			<envvars />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </EmBitz_project_file>
