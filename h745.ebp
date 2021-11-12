@@ -1777,15 +1777,6 @@
 				</target_debugging_settings>
 			</debugger>
 			<envvars />
-			<DoxyBlocks>
-				<comment_style block="0" line="0" />
-				<doxyfile_project />
-				<doxyfile_build />
-				<doxyfile_warnings />
-				<doxyfile_output />
-				<doxyfile_dot />
-				<general />
-			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </EmBitz_project_file>
