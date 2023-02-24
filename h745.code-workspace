@@ -74,6 +74,7 @@
 					"command": "make flash"
 				}
 			]
-		}
+		},
+		"cortex-debug.registerUseNaturalFormat": false
 	}
 }
