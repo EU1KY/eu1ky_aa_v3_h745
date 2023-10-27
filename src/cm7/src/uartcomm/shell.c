@@ -597,7 +597,7 @@ bool shell_cmd_memset(uint32_t argc, char* const argv[])
         printf("    memset <addr> <value> <numdwords>\r\n");
         return false;
     }
-    unsigned int args[3];
+    unsigned int args[3] = {0};
     shell_get_args((uint32_t*)args);
     printf("memset: addr 0x%X value 0x%X, %u dwords\r\n", args[0], args[1], args[2]);
     uint32_t* addr = (uint32_t*)args[0];
@@ -623,7 +623,7 @@ bool shell_cmd_memdmp(uint32_t argc, char* const argv[])
         printf("    memdmp <addr> <numdwords>\r\n");
         return false;
     }
-    uint32_t args[3];
+    uint32_t args[3] = {0};
     shell_get_args(args);
     printf("memdmp: addr 0x%lX, %lu dwords\r\n", args[0], args[1]);
     uint32_t* addr = (uint32_t*)(args[0] & ~3ul);

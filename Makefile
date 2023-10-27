@@ -42,7 +42,7 @@ ASFLAGSM7 = -mcpu=cortex-m7 -mthumb -Wa,--gdwarf-2
 
 LDFLAGSM7 = -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -fgcse -fexpensive-optimizations -fomit-frame-pointer \
           -fdata-sections -ffunction-sections $(TARGET_CFLAGS) -g -mthumb -mfpu=fpv5-d16 -Wl,-Map=$(BINDIR)/cm7/CM7.map \
-          -u _printf_float -specs=nano.specs -Wl,--gc-sections -Tsrc/sys/STM32H745XIHx_FLASH_CM7.ld -lm
+          -u _printf_float -specs=nano.specs -Wl,--gc-sections -Wl,--no-warn-rwx-segments -Tsrc/sys/STM32H745XIHx_FLASH_CM7.ld -lm
 
 # ----------------------------------------------------
 CFLAGSM4  = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -fgcse -fexpensive-optimizations -fomit-frame-pointer \
@@ -52,7 +52,7 @@ ASFLAGSM4 = -mcpu=cortex-m4 -mthumb -Wa,--gdwarf-2
 
 LDFLAGSM4 = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -fgcse -fexpensive-optimizations -fomit-frame-pointer \
           -fdata-sections -ffunction-sections $(TARGET_CFLAGS) -g -mthumb -mfpu=fpv5-sp-d16 -Wl,-Map=$(BINDIR)/cm4/CM4.map \
-          -u _printf_float -specs=nano.specs -Wl,--gc-sections -Tsrc/sys/STM32H745XIHx_FLASH_CM4.ld -lm
+          -u _printf_float -specs=nano.specs -Wl,--gc-sections -Wl,--no-warn-rwx-segments -Tsrc/sys/STM32H745XIHx_FLASH_CM4.ld -lm
 
 # ----------------------------------------------------
 DEFINEM7 =  -DSTM32H745xx \
@@ -279,7 +279,7 @@ gen:
 
 # ----------------------------------------------------------------------
 $(BINFILE): $(BINDIR)/cm4/CM4.hex $(BINDIR)/cm7/CM7.hex
-	@python $(BINSCRIPT) $(BINFILE) $^
+	@python3 $(BINSCRIPT) $(BINFILE) $^
 
 $(BINDIR)/cm7/CM7.hex : $(BINDIR)/cm7/CM7.elf
 	@$(OBJCOPY) -O ihex $< $@
