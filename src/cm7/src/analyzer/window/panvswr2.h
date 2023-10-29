@@ -10,9 +10,13 @@
 
 typedef enum
 {
-    BS200, BS400, BS800, BS1600, BS2M, BS4M, BS8M, BS16M, BS20M, BS40M, BS80M
+    BS200, BS400, BS800, BS1600, BS2M, BS4M, BS8M, BS16M, BS20M, BS40M, BS80M, BS160M
 } BANDSPAN;
 
+#define BS_MAX BS160M
+#define BS_MIN BS200
+
+// defined in panvswr2.c
 extern const char* BSSTR[];
 extern const char* BSSTR_HALF[];
 extern const uint32_t BSVALUES[];

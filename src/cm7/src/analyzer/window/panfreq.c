@@ -175,11 +175,11 @@ static void Show_F(void)
 
 static void BSPrevHitCb(void)
 {
-    if (_bs == BS200)
+    if (_bs == BS_MIN)
     {
-        _bs = BS80M;
-        if (!IsValidRange())
-            _bs = BS200;
+        _bs = BS_MAX;
+        while (!IsValidRange() && _bs != BS_MIN)
+            _bs--;
     }
     else
         _bs -= 1;
@@ -188,13 +188,13 @@ static void BSPrevHitCb(void)
 
 static void BSNextHitCb(void)
 {
-    if (_bs == BS80M)
-        _bs = BS200;
+    if (_bs == BS_MAX)
+        _bs = BS_MIN;
     else
     {
         _bs += 1;
-        if (!IsValidRange())
-            _bs -= 1;
+        while (!IsValidRange() && _bs != BS_MIN)
+            _bs--;
     }
     Show_F();
 }
@@ -292,8 +292,8 @@ static void BandHitCb(const TEXTBOX_t* tb)
 {
     if (0 == strcmp(tb->text, "160"))
     {
-        _f1 = 1800;
-        _bs = BS200;
+        _f1 = 1700;
+        _bs = BS400;
     }
     else if (0 == strcmp(tb->text, "80"))
     {
@@ -332,38 +332,38 @@ static void BandHitCb(const TEXTBOX_t* tb)
     }
     else if (0 == strcmp(tb->text, "12"))
     {
-        _f1 = 24700;
-        _bs = BS400;
+        _f1 = 24600;
+        _bs = BS800;
     }
     else if (0 == strcmp(tb->text, "10"))
     {
-        _f1 = 27900;
-        _bs = BS2M;
+        _f1 = 27000;
+        _bs = BS4M;
     }
     else if (0 == strcmp(tb->text, "6"))
     {
-        _f1 = 49500;
-        _bs = BS4M;
+        _f1 = 47000;
+        _bs = BS8M;
     }
     else if (0 == strcmp(tb->text, "4"))
     {
-        _f1 = 69000;
-        _bs = BS2M;
+        _f1 = 67000;
+        _bs = BS8M;
     }
     else if (0 == strcmp(tb->text, "2"))
     {
-        _f1 = 143000;
-        _bs = BS4M;
+        _f1 = 105000;
+        _bs = BS80M;
     }
     else if (0 == strcmp(tb->text, "1.25m") && CFG_GetParam(CFG_PARAM_BAND_FMAX) >= 234000000ul)
     {// 222-225 MHz in USA
-        _f1 = 214000;
-        _bs = BS20M;
+        _f1 = 183000;
+        _bs = BS80M;
     }
-    else if (0 == strcmp(tb->text, "70cm") && CFG_GetParam(CFG_PARAM_BAND_FMAX) >= 445000000ul)
+    else if (0 == strcmp(tb->text, "70cm") && CFG_GetParam(CFG_PARAM_BAND_FMAX) >= 500000000ul)
     {
-        _f1 = 425000;
-        _bs = BS20M;
+        _f1 = 340000;
+        _bs = BS160M;
     }
     else
         return;

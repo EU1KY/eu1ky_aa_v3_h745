@@ -93,9 +93,9 @@ static const char *modstr = "EU1KY AA v." AAVERSION;
 
 static uint32_t modstrw = 0;
 
-const char* BSSTR[] = {"200 kHz", "400 kHz", "800 kHz", "1.6 MHz", "2 MHz", "4 MHz", "8 MHz", "16 MHz", "20 MHz", "40 MHz", "80 MHz"};
-const char* BSSTR_HALF[] = {"100 kHz", "200 kHz", "400 kHz", "800 kHz", "1 MHz", "2 MHz", "4 MHz", "8 MHz", "10 MHz", "20 MHz", "40 MHz"};
-const uint32_t BSVALUES[] = {200, 400, 800, 1600, 2000, 4000, 8000, 16000, 20000, 40000, 80000};
+const char* BSSTR[] = {"200 kHz", "400 kHz", "800 kHz", "1.6 MHz", "2 MHz", "4 MHz", "8 MHz", "16 MHz", "20 MHz", "40 MHz", "80 MHz", "160 MHz"};
+const char* BSSTR_HALF[] = {"100 kHz", "200 kHz", "400 kHz", "800 kHz", "1 MHz", "2 MHz", "4 MHz", "8 MHz", "10 MHz", "20 MHz", "40 MHz", "80 MHz"};
+const uint32_t BSVALUES[] = {200, 400, 800, 1600, 2000, 4000, 8000, 16000, 20000, 40000, 80000, 160000};
 
 static uint32_t f1 = 14000; //Scan range start frequency, in kHz
 static BANDSPAN span = BS800;
@@ -394,7 +394,6 @@ static void DrawGrid(int drawSwr)  // drawSwr: 0 - R/X, 1 - VSWR, 2 - S11
 
 
     //Draw F grid and labels
- //   int lmod = (BS20M == span) || (BS40M == span) || (BS16M == span) || (BS1600 == span) ? 4 : 5;
     int lmod = 5;
     int linediv = 10; //Draw vertical line every linediv pixels
 
@@ -459,9 +458,9 @@ static void print_f1(uint32_t f)
 
 static void nextspan(BANDSPAN *sp)
 {
-    if (*sp == BS80M)
+    if (*sp == BS_MAX)
     {
-        *sp = BS200;
+        *sp = BS_MIN;
     }
     else
     {
@@ -471,9 +470,9 @@ static void nextspan(BANDSPAN *sp)
 
 static void prevspan(BANDSPAN *sp)
 {
-    if (*sp == BS200)
+    if (*sp == BS_MIN)
     {
-        *sp = BS80M;
+        *sp = BS_MAX;
     }
     else
     {
@@ -661,7 +660,7 @@ static void LoadBkups()
     }
 
     int spbkup = CFG_GetParam(CFG_PARAM_PAN_SPAN);
-    if (spbkup <= BS80M)
+    if (spbkup <= BS_MAX)
     {
         span = (BANDSPAN)spbkup;
     }
