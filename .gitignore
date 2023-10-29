@@ -7,3 +7,4 @@ h745.elay
 svd/*
 .vscode/.cortex-debug.peripherals.state.json
 .vscode/.cortex-debug.registers.state.json
+*.eds

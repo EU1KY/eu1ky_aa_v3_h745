@@ -146,10 +146,10 @@ static const CFG_CHANGEABLE_PARAM_DESCR_t cfg_ch_descr_table[] =
         .id = CFG_PARAM_SI5351_MAX_FREQ,
         .idstring = "SI5351_MAX_FREQ",
         .type = CFG_PARAM_T_U32,
-        .nvalues = 2,
-        .strvalues = CFG_SARR("160 MHz", "200 MHz"),
-        .values = CFG_IARR(160000000ul, 200000000ul),
-        .dstring = "Maximum frequency that Si5351 can output (160 or 200 MHz.)",
+        .nvalues = 3,
+        .strvalues = CFG_SARR("160 MHz", "200 MHz", "250 MHz"),
+        .values = CFG_IARR(160000000ul, 200000000ul, 250000000ul),
+        .dstring = "Maximum frequency that Si5351 can output",
         .isvalid = isShowHiddenSi,
     },
     {
@@ -312,8 +312,8 @@ static const CFG_CHANGEABLE_PARAM_DESCR_t cfg_ch_descr_table[] =
         .idstring = "BAND_FMAX",
         .type = CFG_PARAM_T_U32,
         .nvalues = 6,
-        .values = CFG_IARR(150000000ul, 200000000ul, 300000000ul, 450000000ul, 500000000ul, 720000000ul),
-        .strvalues = CFG_SARR("150 MHz", "200 MHz*", "300 MHz*", "450 MHz", "500 MHz", "720 MHz"),
+        .values = CFG_IARR(150000000ul, 200000000ul, 300000000ul, 450000000ul, 500000000ul, 750000000ul),
+        .strvalues = CFG_SARR("150 MHz", "200 MHz*", "300 MHz*", "450 MHz", "500 MHz", "750 MHz"),
         .isvalid = isShowHidden,
         .dstring = "Upper frequency band limit. If changed, full recalibration is required.",
         .resetRequired = 1
@@ -463,8 +463,9 @@ void CFG_Init(void)
         if (CFG_GetParam(CFG_PARAM_BAND_FMAX) > MAX_BAND_FREQ)
             CFG_SetParam(CFG_PARAM_BAND_FMAX, MAX_BAND_FREQ);
         if (CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ) != 160000000ul
-            && CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ) != 200000000ul)
-            CFG_SetParam(CFG_PARAM_SI5351_MAX_FREQ, 160000000ul);
+            && CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ) != 200000000ul
+            && CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ) != 250000000ul)
+            CFG_SetParam(CFG_PARAM_SI5351_MAX_FREQ, 200000000ul);
     }
     if ((CFG_GetParam(CFG_PARAM_BAND_FMAX) <= BAND_FMIN) || (CFG_GetParam(CFG_PARAM_BAND_FMAX) % 1000000 != 0))
         CFG_SetParam(CFG_PARAM_BAND_FMAX, 150000000ul);
