@@ -41,7 +41,7 @@
             "${workspaceFolder}/src/common",
             "${workspaceFolder}/src/sys"
         ],
-        "myCompilerPath": "${default}"
+        "myCompilerPath": "arm-none-eabi-gcc"
       },
 
     "configurations": [
